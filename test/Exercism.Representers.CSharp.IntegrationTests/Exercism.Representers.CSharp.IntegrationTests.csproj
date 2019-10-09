@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SolutionFiles Include="Solutions\**" />
+    <Compile Remove="@(SolutionFiles)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Exercism.Representers.CSharp\Exercism.Representers.CSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Solutions\Braces\ElseStatementWithBraces\expected_representation.txt" />
+    <Content Include="Solutions\Braces\IfStatementWithBraces\expected_representation.txt" />
+    <Content Include="Solutions\Braces\NestedWithoutBraces\expected_representation.txt" />
+    <Content Include="Solutions\Braces\BracesOnSameLine\expected_representation.txt" />
+    <Content Include="Solutions\Braces\ElseStatementWithoutBraces\expected_representation.txt" />
+    <Content Include="Solutions\Braces\IfStatementWithoutBraces\expected_representation.txt" />
+    <Content Include="Solutions\Comments\MultiLineCommentForPartOfLine\expected_representation.txt" />
+    <Content Include="Solutions\Comments\MultiLineCommentForEntireLines\expected_representation.txt" />
+    <Content Include="Solutions\Comments\SingleLineCommentForPartOfLine\expected_representation.txt" />
+    <Content Include="Solutions\Comments\SingleLineCommentForEntireLine\expected_representation.txt" />
+    <Content Include="Solutions\Comments\XmlComment\expected_representation.txt" />
+    <Content Include="Solutions\Keywords\UsingAliasString\expected_representation.txt" />
+    <Content Include="Solutions\Keywords\UsingFrameworkStringWithNamespace\expected_representation.txt" />
+    <Content Include="Solutions\Keywords\UsingFrameworkString\expected_representation.txt" />
+    <Content Include="Solutions\Numbers\ExponentNotationWithLowerCase\expected_representation.txt" />
+    <Content Include="Solutions\Numbers\ExponentNotationWithUpperCase\expected_representation.txt" />
+    <Content Include="Solutions\WhiteSpace\InconsistentWhiteSpace\expected_representation.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Solutions\WhiteSpace" />
+  </ItemGroup>
+  
+  <Target Name="CopySolutions" AfterTargets="Build">
+    <RemoveDir Directories="$(OutputPath)\Solutions" />
+    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="$(OutputPath)\Solutions\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

@@ -1,0 +1,23 @@
+# Build files
+bin/
+obj/
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+
+# User files
+*.suo
+*.user
+*.userprefs
+
+# Package manager files
+.nuget
+.packages/
+
+# Misc files
+*.DS_Store
+
+# Plugin files
+.ionide/
