@@ -7,7 +7,7 @@ A tool that can create a normalized representation of C# solutions submitted to 
 To create a representation of a solution, follow these steps:
 
 1. Open a command prompt in the root directory.
-1. Run `./generate.ps1 <exercise> <input-directory> <output-directory>`. This script will generate a representation for the solution found in <input-directory>.
+1. Run `./generate.ps1 <exercise> <input-directory> <output-directory>`. This script will generate a representation for the solution found in `<input-directory>`.
 1. Once the script has completed, the representation will be written to `<output-directory>/representation.txt`.
 
 ## Generate a representation for multiple solutions
