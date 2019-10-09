@@ -8,7 +8,7 @@ namespace Exercism.Representers.CSharp.Simplification
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            if (node.Expression.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("System")))
+            if (node.Expression.IdentifierName() == "System")
                 return base.Visit(node.Name);
 
             return base.VisitMemberAccessExpression(node);
@@ -16,7 +16,7 @@ namespace Exercism.Representers.CSharp.Simplification
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {
-            if (node.Left.IsEquivalentWhenNormalized(SyntaxFactory.IdentifierName("System")))
+            if (node.Left.IdentifierName() == "System")
                 return base.Visit(node.Right);
 
             return base.VisitQualifiedName(node);

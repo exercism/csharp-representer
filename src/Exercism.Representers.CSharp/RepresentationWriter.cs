@@ -8,6 +8,6 @@ namespace Exercism.Representers.CSharp
             File.WriteAllText(GetRepresentationFilePath(options), representation.Simplified);
 
         private static string GetRepresentationFilePath(Options options) =>
-            Path.GetFullPath(Path.Combine(options.Directory, "representation.txt"));
+            Path.GetFullPath(Path.Combine(options.OutputDirectory, "representation.txt"));
     }
 }

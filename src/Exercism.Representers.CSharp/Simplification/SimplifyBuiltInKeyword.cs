@@ -9,11 +9,9 @@ namespace Exercism.Representers.CSharp.Simplification
     {
         public override SyntaxNode VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
-            if (node.Expression.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Expression.IdentifierName() == "String")
                 return base.Visit(
-                    node.WithExpression(
-                        PredefinedType(
-                            Token(SyntaxKind.StringKeyword))
+                    node.WithExpression(PredefinedType(Token(SyntaxKind.StringKeyword))
                         .WithTriviaFrom(node.Expression)));
 
             return base.VisitMemberAccessExpression(node);
@@ -21,11 +19,9 @@ namespace Exercism.Representers.CSharp.Simplification
 
         public override SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax node)
         {
-            if (node.Type.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Type.IdentifierName() == "String")
                 return base.Visit(
-                    node.WithType(
-                        PredefinedType(
-                            Token(SyntaxKind.StringKeyword))
+                    node.WithType(PredefinedType(Token(SyntaxKind.StringKeyword))
                         .WithTriviaFrom(node.Type)));
 
             return base.VisitVariableDeclaration(node);
@@ -33,28 +29,32 @@ namespace Exercism.Representers.CSharp.Simplification
 
         public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
         {
-            if (node.Left.IsEquivalentWhenNormalized(IdentifierName("String")))
+            if (node.Left.IdentifierName() == "String")
                 return base.Visit(
-                    node.WithLeft(
-                        IdentifierName("string").WithTriviaFrom(node.Left)));
+                    node.WithLeft(IdentifierName("string")
+                        .WithTriviaFrom(node.Left)));
 
             return base.VisitQualifiedName(node);
         }
 
-        public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax methodDeclaration)
+        public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            if (methodDeclaration.ReturnType.IsEquivalentWhenNormalized(IdentifierName("String")))
-                return base.VisitMethodDeclaration(methodDeclaration.WithReturnType(IdentifierName("string").WithTriviaFrom(methodDeclaration.ReturnType)));
+            if (node.ReturnType.IdentifierName() == "String")
+                return base.VisitMethodDeclaration(
+                    node.WithReturnType(IdentifierName("string")
+                        .WithTriviaFrom(node.ReturnType)));
 
-            return base.VisitMethodDeclaration(methodDeclaration);
+            return base.VisitMethodDeclaration(node);
         }
 
-        public override SyntaxNode VisitParameter(ParameterSyntax parameter)
+        public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
-            if (parameter.Type.IsEquivalentWhenNormalized(IdentifierName("String")))
-                return base.VisitParameter(parameter.WithType(IdentifierName("string").WithTriviaFrom(parameter.Type)));
+            if (node.Type.IdentifierName() == "String")
+                return base.VisitParameter(
+                    node.WithType(IdentifierName("string")
+                        .WithTriviaFrom(node.Type)));
 
-            return base.VisitParameter(parameter);
+            return base.VisitParameter(node);
         }
     }
 }

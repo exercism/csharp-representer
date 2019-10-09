@@ -32,7 +32,7 @@ namespace Exercism.Representers.CSharp
         private static FileInfo GetImplementationFile(Options options)
         {
             var implementationFileName = $"{GetSolutionName(options)}.cs";
-            var implementationFilePath = Path.GetFullPath(Path.Combine(options.Directory, implementationFileName));
+            var implementationFilePath = Path.GetFullPath(Path.Combine(options.InputDirectory, implementationFileName));
 
             return new FileInfo(implementationFilePath);
         }

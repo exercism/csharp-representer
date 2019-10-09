@@ -4,7 +4,7 @@ namespace Exercism.Representers.CSharp.IntegrationTests
     {
         public static TestSolutionRepresentation Run(TestSolution testSolution)
         {
-            Program.Main(new[] { testSolution.Slug, testSolution.Directory });
+            Program.Main(new[] { testSolution.Slug, testSolution.Directory, testSolution.Directory });
 
             return CreateTestSolutionRepresentation(testSolution);
         }

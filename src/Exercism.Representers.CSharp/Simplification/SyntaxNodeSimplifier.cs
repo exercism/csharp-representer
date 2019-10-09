@@ -8,16 +8,15 @@ namespace Exercism.Representers.CSharp.Simplification
     {
         private static readonly CSharpSyntaxRewriter[] SyntaxRewriters =
         {
-            // TODO: remove comments from syntax
             // TODO: remove unneeded parentheses from method call
 
-            new RemoveComments(),
             new RemoveOptionalParentheses(),
             new SimplifyFullyQualifiedName(),
             new SimplifyBuiltInKeyword(),
             new InvertNegativeConditionals(),
             new AddBracesToIfAndElseStatements(),
-            new LowerCaseToUpperCaseExponentNotation()
+            new LowerCaseToUpperCaseExponentNotation(),
+            new RemoveTrivia()
         };
 
         public static SyntaxNode Simplify(this SyntaxNode node) =>

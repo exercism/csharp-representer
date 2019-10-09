@@ -14,9 +14,7 @@ namespace Exercism.Representers.CSharp.Simplification
             var reducedSyntax = reducedDocument.GetSyntaxRootAsync().GetAwaiter().GetResult();
 
             var simplifiedSyntax = reducedSyntax.Simplify();
-            var normalizedSyntax = simplifiedSyntax.NormalizeWhitespace();
-
-            return document.WithSyntaxRoot(normalizedSyntax);
+            return document.WithSyntaxRoot(simplifiedSyntax);
         }
     }
 }

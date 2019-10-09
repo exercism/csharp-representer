@@ -1,9 +1,1 @@
-using System;
-
-public static class Fake
-{
-    public static string Test()
-    {
-        return "Test";
-    }
-}
+usingSystem;publicstaticclassFake{publicstaticstringTest(){return"Test";}}

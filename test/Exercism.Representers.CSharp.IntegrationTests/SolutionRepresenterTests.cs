@@ -9,7 +9,7 @@ namespace Exercism.Representers.CSharp.IntegrationTests
         public void SolutionIsRepresentedCorrectly(TestSolution testSolution)
         {
             var representation = TestSolutionRepresenter.Run(testSolution);
-            Assert.Equal(representation.Expected.NormalizeNewlines(), representation.Actual.NormalizeNewlines());
+            Assert.Equal(representation.Expected, representation.Actual);
         }
     }
 }

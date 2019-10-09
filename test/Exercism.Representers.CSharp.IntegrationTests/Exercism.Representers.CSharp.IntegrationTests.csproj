@@ -12,36 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SolutionFiles Include="Solutions\**" />
-    <Compile Remove="@(SolutionFiles)" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Representers.CSharp\Exercism.Representers.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Solutions\Braces\ElseStatementWithBraces\expected_representation.txt" />
-    <Content Include="Solutions\Braces\IfStatementWithBraces\expected_representation.txt" />
-    <Content Include="Solutions\Braces\NestedWithoutBraces\expected_representation.txt" />
-    <Content Include="Solutions\Braces\BracesOnSameLine\expected_representation.txt" />
-    <Content Include="Solutions\Braces\ElseStatementWithoutBraces\expected_representation.txt" />
-    <Content Include="Solutions\Braces\IfStatementWithoutBraces\expected_representation.txt" />
-    <Content Include="Solutions\Comments\MultiLineCommentForPartOfLine\expected_representation.txt" />
-    <Content Include="Solutions\Comments\MultiLineCommentForEntireLines\expected_representation.txt" />
-    <Content Include="Solutions\Comments\SingleLineCommentForPartOfLine\expected_representation.txt" />
-    <Content Include="Solutions\Comments\SingleLineCommentForEntireLine\expected_representation.txt" />
-    <Content Include="Solutions\Comments\XmlComment\expected_representation.txt" />
-    <Content Include="Solutions\Keywords\UsingAliasString\expected_representation.txt" />
-    <Content Include="Solutions\Keywords\UsingFrameworkStringWithNamespace\expected_representation.txt" />
-    <Content Include="Solutions\Keywords\UsingFrameworkString\expected_representation.txt" />
-    <Content Include="Solutions\Numbers\ExponentNotationWithLowerCase\expected_representation.txt" />
-    <Content Include="Solutions\Numbers\ExponentNotationWithUpperCase\expected_representation.txt" />
-    <Content Include="Solutions\WhiteSpace\InconsistentWhiteSpace\expected_representation.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Solutions\WhiteSpace" />
+    <SolutionFiles Include="Solutions\**" />
+    <Compile Remove="@(SolutionFiles)" />
   </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">

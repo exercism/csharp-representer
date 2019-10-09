@@ -15,13 +15,13 @@ namespace Exercism.Representers.CSharp
 
         private static void CreateRepresentation(Options options)
         {
-            Log.Information("Creating representation for {Exercise} solution in directory {Directory}", options.Slug, options.Directory);
+            Log.Information("Creating representation for {Exercise} solution in directory {Directory}", options.Slug, options.InputDirectory);
 
             var solution = SolutionParser.Parse(options);
             var representation = SolutionRepresenter.Represent(solution);
             RepresentationWriter.WriteToFile(options, representation);
 
-            Log.Information("Created representation for {Exercise} solution in directory {Directory}", options.Slug, options.Directory);
+            Log.Information("Created representation for {Exercise} solution in directory {Directory}", options.Slug, options.OutputDirectory);
         }
     }
 }

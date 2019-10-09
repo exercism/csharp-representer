@@ -1,5 +1,5 @@
 *
-!generate_representation.sh
+!generate.sh
 !src/Exercism.Representers.CSharp
 src/Exercism.Representers.CSharp/bin
 src/Exercism.Representers.CSharp/obj
