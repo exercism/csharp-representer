@@ -3,39 +3,42 @@
     Run all tests.
 .DESCRIPTION
     Run all tests, verifying the behavior of the analyzer.
-.PARAMETER UpdateAnalysis
-    Update the expected analysis files to the current output (optional).
-.PARAMETER UpdateComments
-    Update the comment files to the current output (optional).
+.PARAMETER UpdateExpected
+    Update the expected representation files to the current output (optional).
 .EXAMPLE
     The example below will run all tests
     PS C:\> ./test.ps1
 
-    The example below will run all tests and update the comments
-    PS C:\> ./test.ps1 -UpdateComments
-
-    The example below will run all tests and update both the comments and analysis files
-    PS C:\> ./test.ps1 -UpdateComments -UpdateAnalysis
+    The example below will run all tests and update the expected representation files
+    PS C:\> ./test.ps1 -UpdateExpected
 .NOTES
-    The UpdateAnalysis and UpdateComments switches should only be used if
-    a bulk update of the expected analysis and/or expected comments files is needed.
+    The UpdateExpected switch should only be used if a bulk update of the expected
+    representation files is needed.
 #>
 
 param (
     [Parameter(Mandatory = $false)]
-    [Switch]$UpdateAnalysis,
-
-    [Parameter(Mandatory = $false)]
-    [Switch]$UpdateComments
+    [Switch]$UpdateExpected
 )
 
-git submodule update --remote --merge website-copy
-
-$Env:UPDATE_ANALYSIS = $UpdateAnalysis.IsPresent
-$Env:UPDATE_COMMENTS = $UpdateComments.IsPresent
-
-dotnet test
-
-if ($UpdateAnalysis.IsPresent -or $UpdateComments.IsPresent) {
-    ./format.ps1
+function Update-Expected {
+    $solutionsDir = Join-Path "test" "Exercism.Representers.CSharp.IntegrationTests" "Solutions"
+    Generate-Solution-Representations $solutionsDir
+    Move-Generated-Represenations-To-Expected
 }
+
+function Generate-Solution-Representations ([string] $SolutionsDir) {
+    ./bulk-generate.ps1 "fake" $solutionsDir
+}
+
+function Move-Generated-Represenations-To-Expected ([string] $SolutionsDir) {
+    Get-ChildItem $solutionsDir "representation.txt" -Recurse | ForEach-Object { 
+        Move-Item -Force $_.FullName $_.FullName.Replace("representation", "expected_representation")
+    }
+}
+
+if ($UpdateExpected.IsPresent) {
+    Update-Expected
+}
+
+# dotnet test
