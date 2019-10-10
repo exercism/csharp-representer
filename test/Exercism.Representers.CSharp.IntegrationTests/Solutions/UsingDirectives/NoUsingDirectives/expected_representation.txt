@@ -1,0 +1,1 @@
+publicstaticclassFake{publicstaticintTest(){returnConvert.ToInt32("18");}}

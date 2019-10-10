@@ -1,1 +1,1 @@
-usingSystem;publicstaticclassFake{publicstaticstringTest(stringstr){stringotherStr=str+"test";returnotherStr+"123";}}
+publicstaticclassFake{publicstaticstringTest(stringstr){stringotherStr=str+"test";returnotherStr+"123";}}

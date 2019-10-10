@@ -1,1 +1,1 @@
-usingSystem;publicstaticclassFake{publicstaticDateTimeAdd(DateTimebirthDate){returnbirthDate.Add(TimeSpan.FromSeconds(1000000000));}}
+publicstaticclassFake{publicstaticDateTimeAdd(DateTimebirthDate){returnbirthDate.Add(TimeSpan.FromSeconds(1000000000));}}

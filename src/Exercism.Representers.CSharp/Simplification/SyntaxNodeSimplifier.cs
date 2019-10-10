@@ -16,6 +16,7 @@ namespace Exercism.Representers.CSharp.Simplification
             new InvertNegativeConditionals(),
             new AddBracesToIfAndElseStatements(),
             new LowerCaseToUpperCaseExponentNotation(),
+            new RemoveUsingDirectives(),
             new RemoveTrivia()
         };
 

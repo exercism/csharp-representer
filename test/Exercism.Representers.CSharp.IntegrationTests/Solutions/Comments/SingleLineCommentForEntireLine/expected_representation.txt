@@ -1,1 +1,1 @@
-usingSystem;publicstaticclassFake{publicstaticstringTest(){return"Test";}}
+publicstaticclassFake{publicstaticstringTest(){return"Test";}}

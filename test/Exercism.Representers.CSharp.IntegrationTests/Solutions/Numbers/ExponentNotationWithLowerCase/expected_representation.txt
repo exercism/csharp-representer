@@ -1,1 +1,1 @@
-usingSystem;publicstaticclassFake{publicstaticdoubleTest(){return1E7;}}
+publicstaticclassFake{publicstaticdoubleTest(){return1E7;}}

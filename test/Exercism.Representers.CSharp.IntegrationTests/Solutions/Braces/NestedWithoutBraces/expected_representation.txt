@@ -1,1 +1,1 @@
-usingSystem;publicstaticclassFake{publicstaticintTest(){if(1>2){if(1>3){if(4<5){return0;}else{return2;}}}return1;}}
+publicstaticclassFake{publicstaticintTest(){if(1>2){if(1>3){if(4<5){return0;}else{return2;}}}return1;}}
