@@ -41,4 +41,4 @@ if ($UpdateExpected.IsPresent) {
     Update-Expected
 }
 
-# dotnet test
+dotnet test
