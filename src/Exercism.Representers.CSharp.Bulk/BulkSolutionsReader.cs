@@ -8,11 +8,17 @@ namespace Exercism.Representers.CSharp.Bulk
     internal static class BulkSolutionsReader
     {
         public static IEnumerable<BulkSolution> ReadAll(Options options) =>
-            from solutionDirectory in GetSolutionDirectories(options.Directory)
-            select CreateBulkSolution(options.Slug, solutionDirectory);
+            GetSolutionDirectories(options.Directory)
+                .Select(solutionDirectory => CreateBulkSolution(options.Slug, solutionDirectory));
 
         private static IEnumerable<string> GetSolutionDirectories(string exerciseDirectory) =>
-            Directory.GetDirectories(exerciseDirectory).OrderBy(directory => directory, StringComparer.Ordinal);
+            Directory
+                .EnumerateDirectories(exerciseDirectory, "*", SearchOption.AllDirectories)
+                .Where(IsLeafDirectory)
+                .OrderBy(directory => directory, StringComparer.Ordinal);
+
+        private static bool IsLeafDirectory(string directory) =>
+            !Directory.EnumerateDirectories(directory).Any();
 
         private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
             new BulkSolution(slug, solutionDirectory);
