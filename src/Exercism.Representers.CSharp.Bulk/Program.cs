@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.IO;
+using CommandLine;
 
 namespace Exercism.Representers.CSharp.Bulk
 {
@@ -15,9 +16,7 @@ namespace Exercism.Representers.CSharp.Bulk
         private static void Analyze(Options options)
         {
             var bulkSolutionPresenterResults = BulkSolutionPresenter.RunAll(options);
-            // TODO: output report
-//            BulkSolutionRepresentationsReport.Output(bulkSolutionPresenterResults);
-//            BulkSolutionsAnalysisRunWriter.Write(bulkSolutionPresenterResults);
+            BulkSolutionPresenterResultsReport.Output(bulkSolutionPresenterResults);
         }
     }
 }
