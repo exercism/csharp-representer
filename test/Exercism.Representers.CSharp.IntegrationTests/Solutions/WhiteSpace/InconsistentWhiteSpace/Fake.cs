@@ -1,6 +1,6 @@
 using System;   
 
-public static    class Fake
+     public static    class Fake
 {
     public     static   DateTime Add    (DateTime    birthDate)
     {     

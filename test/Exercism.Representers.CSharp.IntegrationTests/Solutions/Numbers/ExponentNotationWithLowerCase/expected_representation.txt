@@ -1,1 +1,7 @@
-publicstaticclassFake{publicstaticdoubleTest(){return1E7;}}
+public static class Fake
+{
+    public static double Test()
+    {
+        return 1E7;
+    }
+}

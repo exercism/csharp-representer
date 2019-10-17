@@ -17,7 +17,9 @@ namespace Exercism.Representers.CSharp.Simplification
             new AddBracesToIfAndElseStatements(),
             new LowerCaseToUpperCaseExponentNotation(),
             new RemoveUsingDirectives(),
-            new RemoveTrivia()
+            new RemoveComments(),
+            new NormalizeIdentifiers(),
+            new NormalizeWhiteSpace()
         };
 
         public static SyntaxNode Simplify(this SyntaxNode node) =>

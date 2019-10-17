@@ -1,1 +1,7 @@
-publicstaticclassFake{publicstaticintTest(intinput){returninput==0?-1:1;}}
+public static class Fake
+{
+    public static int Test(int PLACEHOLDER_1)
+    {
+        return PLACEHOLDER_1 == 0 ? -1 : 1;
+    }
+}

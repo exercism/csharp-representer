@@ -1,1 +1,8 @@
-publicstaticclassFake{publicstaticstringTest(stringstr){stringotherStr=str+"test";returnotherStr+"123";}}
+public static class Fake
+{
+    public static string Test(string PLACEHOLDER_1)
+    {
+        string otherStr = PLACEHOLDER_1 + "test";
+        return otherStr + "123";
+    }
+}

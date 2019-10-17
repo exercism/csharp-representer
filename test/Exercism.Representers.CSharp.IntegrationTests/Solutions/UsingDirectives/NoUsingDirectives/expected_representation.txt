@@ -1,1 +1,7 @@
-publicstaticclassFake{publicstaticintTest(){returnConvert.ToInt32("18");}}
+public static class Fake
+{
+    public static int Test()
+    {
+        return Convert.ToInt32("18");
+    }
+}

@@ -1,0 +1,7 @@
+public static class Fake
+{
+    public static int Test(int PLACEHOLDER_1, int PLACEHOLDER_2)
+    {
+        return PLACEHOLDER_1 + PLACEHOLDER_2;
+    }
+}

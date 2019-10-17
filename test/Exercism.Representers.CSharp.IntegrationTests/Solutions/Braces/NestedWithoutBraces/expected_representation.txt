@@ -1,1 +1,22 @@
-publicstaticclassFake{publicstaticintTest(){if(1>2){if(1>3){if(4<5){return0;}else{return2;}}}return1;}}
+public static class Fake
+{
+    public static int Test()
+    {
+        if (1 > 2)
+        {
+            if (1 > 3)
+            {
+                if (4 < 5)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+        }
+
+        return 1;
+    }
+}
