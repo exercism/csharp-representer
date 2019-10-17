@@ -1,0 +1,1 @@
+publicstaticclassFake{publicstaticintTest(intinput){returninput==0?-1:1;}}
