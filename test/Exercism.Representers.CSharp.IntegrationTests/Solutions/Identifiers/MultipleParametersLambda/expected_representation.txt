@@ -1,0 +1,7 @@
+public static class Fake
+{
+    public static IEnumerable<int> Test(IEnumerable<int> PLACEHOLDER_1)
+    {
+        return PLACEHOLDER_1.Select((PLACEHOLDER_2, PLACEHOLDER_3) => PLACEHOLDER_2 > PLACEHOLDER_3);
+    }
+}

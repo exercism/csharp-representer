@@ -1,0 +1,7 @@
+public static class Fake
+{
+    public static IEnumerable<int> Test(IEnumerable<int> PLACEHOLDER_1)
+    {
+        return PLACEHOLDER_1.Where(PLACEHOLDER_2 => PLACEHOLDER_2 > 0).Concat(PLACEHOLDER_1.Where(PLACEHOLDER_2 => PLACEHOLDER_2 > 2)).Where((PLACEHOLDER_2, PLACEHOLDER_3) => PLACEHOLDER_2 + PLACEHOLDER_3 > 2).Select(PLACEHOLDER_4 => PLACEHOLDER_4 * 3);
+    }
+}

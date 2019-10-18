@@ -1,0 +1,7 @@
+public static class Fake
+{
+    public static IEnumerable<int> Test(IEnumerable<int> PLACEHOLDER_1)
+    {
+        return PLACEHOLDER_1.Where(PLACEHOLDER_2 => PLACEHOLDER_2 > 0).Select(PLACEHOLDER_2 => PLACEHOLDER_2 * 2).OrderBy(PLACEHOLDER_2 => PLACEHOLDER_2);
+    }
+}

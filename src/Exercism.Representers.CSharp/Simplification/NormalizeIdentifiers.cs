@@ -11,37 +11,48 @@ namespace Exercism.Representers.CSharp.Simplification
         
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
         {   
-            IdentifierToPlaceholder.Clear();
-
-            foreach (var parameter in node.ParameterList.Parameters)
-                IdentifierToPlaceholder[parameter.Identifier.ValueText] = $"PLACEHOLDER_{IdentifierToPlaceholder.Count + 1}";
+            ClearPlaceholders();
 
             return base.VisitMethodDeclaration(node);
         }
-
-        public override SyntaxNode VisitLocalFunctionStatement(LocalFunctionStatementSyntax node)
-        {
-            foreach (var parameter in node.ParameterList.Parameters)
-                IdentifierToPlaceholder[parameter.Identifier.ValueText] = $"PLACEHOLDER_{IdentifierToPlaceholder.Count + 1}";
-            
-            return base.VisitLocalFunctionStatement(node);
-        }
-
+        
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
-            if (IdentifierToPlaceholder.TryGetValue(node.Identifier.ValueText, out var placeholder))
+            if (AddPlaceholder(node.Identifier, out var placeholder))
                 return base.VisitParameter(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
             
             return base.VisitParameter(node);
         }
 
+        public override SyntaxNode VisitVariableDeclarator(VariableDeclaratorSyntax node)
+        {
+            if (AddPlaceholder(node.Identifier, out var placeholder))
+                return base.VisitVariableDeclarator(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
+            
+            return base.VisitVariableDeclarator(node);
+        }
+
         public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
         {
-            if (IdentifierToPlaceholder.TryGetValue(node.Identifier.ValueText, out var placeholder) &&
-                !(node.Parent is MemberAccessExpressionSyntax))
+            if (TryGetPlaceholder(node.Identifier, out var placeholder))
                 return base.VisitIdentifierName(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
             
             return base.VisitIdentifierName(node);
         }
+
+        private static void ClearPlaceholders() =>
+            IdentifierToPlaceholder.Clear();
+
+        private static bool AddPlaceholder(SyntaxToken identifier, out string placeholder)
+        {
+            if (IdentifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder))
+                return true;
+            
+            placeholder = $"PLACEHOLDER_{IdentifierToPlaceholder.Count + 1}";
+            return IdentifierToPlaceholder.TryAdd(identifier.ValueText, placeholder);
+        }
+
+        private static bool TryGetPlaceholder(SyntaxToken identifier, out string placeholder) =>
+            IdentifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder);
     }
 }

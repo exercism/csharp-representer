@@ -1,0 +1,10 @@
+public static class Fake
+{
+    public static int Test(int PLACEHOLDER_1)
+    {
+        var PLACEHOLDER_2 = PLACEHOLDER_1 + 2;
+        var PLACEHOLDER_3 = PLACEHOLDER_2 % 5;
+        var PLACEHOLDER_4 = PLACEHOLDER_3 + PLACEHOLDER_2 + PLACEHOLDER_1;
+        return PLACEHOLDER_4 / 2;
+    }
+}
