@@ -1,0 +1,12 @@
+public static class Fake
+{
+    public static int Foo(int PLACEHOLDER_1)
+    {
+        return PLACEHOLDER_1;
+    }
+
+    public static float Bar(bool PLACEHOLDER_2, float PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_2 ? PLACEHOLDER_3 : PLACEHOLDER_3 * 2.0;
+    }
+}

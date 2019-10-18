@@ -1,0 +1,19 @@
+public static class Fake
+{
+    public static int Foo(int PLACEHOLDER_1, int PLACEHOLDER_2)
+    {
+        int Add(int PLACEHOLDER_3, int PLACEHOLDER_4) => PLACEHOLDER_3 + PLACEHOLDER_4;
+        return Add(PLACEHOLDER_1, PLACEHOLDER_2);
+    }
+
+    public static float Bar(bool PLACEHOLDER_5, float PLACEHOLDER_6)
+    {
+        var PLACEHOLDER_3 = new int[]{1, 2, 3, 4};
+        var PLACEHOLDER_4 = numbers.Where(PLACEHOLDER_3 => PLACEHOLDER_3 > 0).Concat(numbers.Where(PLACEHOLDER_3 => PLACEHOLDER_3 > 2)).Where((PLACEHOLDER_3, PLACEHOLDER_7) => PLACEHOLDER_3 + PLACEHOLDER_7 > 2).Select(PLACEHOLDER_4 => PLACEHOLDER_4 * 3)var PLACEHOLDER_8 = numbers.Select((PLACEHOLDER_3, PLACEHOLDER_7) => PLACEHOLDER_3 > PLACEHOLDER_7);
+        return PLACEHOLDER_5 ? PLACEHOLDER_6 & PLACEHOLDER_8.Count() : PLACEHOLDER_6 * numbers.Count();
+    }
+
+    public static int Baz(int PLACEHOLDER_2)
+    {
+        return Enumerable.Range(1, PLACEHOLDER_2).Select(PLACEHOLDER_7 => PLACEHOLDER_7 * PLACEHOLDER_7)}
+}

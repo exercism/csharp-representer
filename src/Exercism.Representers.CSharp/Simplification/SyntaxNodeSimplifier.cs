@@ -6,10 +6,12 @@ namespace Exercism.Representers.CSharp.Simplification
 {
     internal static class SyntaxNodeSimplifier
     {
-        private static readonly CSharpSyntaxRewriter[] SyntaxRewriters =
+        public static SyntaxNode Simplify(this SyntaxNode node) =>
+            SyntaxRewriters.Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
+        
+        private static CSharpSyntaxRewriter[] SyntaxRewriters => new CSharpSyntaxRewriter[]
         {
             // TODO: remove unneeded parentheses from method call
-
             new RemoveOptionalParentheses(),
             new SimplifyFullyQualifiedName(),
             new SimplifyBuiltInKeyword(),
@@ -21,8 +23,5 @@ namespace Exercism.Representers.CSharp.Simplification
             new NormalizeIdentifiers(),
             new NormalizeWhiteSpace()
         };
-
-        public static SyntaxNode Simplify(this SyntaxNode node) =>
-            SyntaxRewriters.Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
     }
 }

@@ -7,18 +7,11 @@ namespace Exercism.Representers.CSharp.Simplification
 {   
     internal class NormalizeIdentifiers : CSharpSyntaxRewriter
     {
-        private static readonly Dictionary<string, string> IdentifierToPlaceholder = new Dictionary<string, string>();
-        
-        public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
-        {   
-            ClearPlaceholders();
+        private readonly Dictionary<string, string> _identifierToPlaceholder = new Dictionary<string, string>();
 
-            return base.VisitMethodDeclaration(node);
-        }
-        
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
-            if (AddPlaceholder(node.Identifier, out var placeholder))
+            if (TryAddPlaceholder(node.Identifier, out var placeholder))
                 return base.VisitParameter(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
             
             return base.VisitParameter(node);
@@ -26,7 +19,7 @@ namespace Exercism.Representers.CSharp.Simplification
 
         public override SyntaxNode VisitVariableDeclarator(VariableDeclaratorSyntax node)
         {
-            if (AddPlaceholder(node.Identifier, out var placeholder))
+            if (TryAddPlaceholder(node.Identifier, out var placeholder))
                 return base.VisitVariableDeclarator(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
             
             return base.VisitVariableDeclarator(node);
@@ -40,19 +33,16 @@ namespace Exercism.Representers.CSharp.Simplification
             return base.VisitIdentifierName(node);
         }
 
-        private static void ClearPlaceholders() =>
-            IdentifierToPlaceholder.Clear();
-
-        private static bool AddPlaceholder(SyntaxToken identifier, out string placeholder)
+        private bool TryAddPlaceholder(SyntaxToken identifier, out string placeholder)
         {
-            if (IdentifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder))
+            if (_identifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder))
                 return true;
             
-            placeholder = $"PLACEHOLDER_{IdentifierToPlaceholder.Count + 1}";
-            return IdentifierToPlaceholder.TryAdd(identifier.ValueText, placeholder);
+            placeholder = $"PLACEHOLDER_{_identifierToPlaceholder.Count + 1}";
+            return _identifierToPlaceholder.TryAdd(identifier.ValueText, placeholder);
         }
 
-        private static bool TryGetPlaceholder(SyntaxToken identifier, out string placeholder) =>
-            IdentifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder);
+        private bool TryGetPlaceholder(SyntaxToken identifier, out string placeholder) =>
+            _identifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder);
     }
 }
