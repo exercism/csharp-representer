@@ -13,7 +13,7 @@
     The example below will generate a representation for the two-fer solutions
     in the "~/exercism/two-fer" directory. Note: the representation file will
     be written to the solution's directory.
-    PS C:\> ./bulk-generate.ps1 two-fer ~/exercism/two-fer
+    PS C:\> ./generate-in-bulk.ps1 two-fer ~/exercism/two-fer
 #>
 
 param (
