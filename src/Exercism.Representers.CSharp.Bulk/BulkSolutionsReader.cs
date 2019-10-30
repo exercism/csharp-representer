@@ -15,10 +15,14 @@ namespace Exercism.Representers.CSharp.Bulk
             Directory
                 .EnumerateDirectories(exerciseDirectory, "*", SearchOption.AllDirectories)
                 .Where(IsLeafDirectory)
+                .Where(IsNotHidden)
                 .OrderBy(directory => directory, StringComparer.Ordinal);
 
         private static bool IsLeafDirectory(string directory) =>
             !Directory.EnumerateDirectories(directory).Any();
+
+        private static bool IsNotHidden(string directory) =>
+            !directory.StartsWith(".");
 
         private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
             new BulkSolution(slug, solutionDirectory);
