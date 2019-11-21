@@ -15,7 +15,7 @@ To create a representation of a solution, follow these steps:
 To create representations for multiple solutions at once, follow these steps:
 
 1. Open a command prompt in the root directory.
-1. Run `./bulk-generate.ps1 <exercise> <input-directory>`. This script will create a representation for the solution in each directory sub-directory of `<input-directory>`.
+1. Run `./generate-in-bulk.ps1 <exercise> <input-directory>`. This script will create a representation for the solution in each directory sub-directory of `<input-directory>`.
 1. Once the script has completed, it will:
    1. Output general statistics to the console.
    1. Write detailed analysis results to `<solution-directory>/bulk_represent.json`.
