@@ -9,6 +9,22 @@ namespace Exercism.Representers.CSharp.Normalization
     {
         private readonly Dictionary<string, string> _identifierToPlaceholder = new Dictionary<string, string>();
 
+        public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
+        {
+            if (TryAddPlaceholder(node.Identifier, out var placeholder))
+                return base.VisitClassDeclaration(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
+
+            return base.VisitClassDeclaration(node);
+        }
+
+        public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
+        {
+            if (TryAddPlaceholder(node.Identifier, out var placeholder))
+                return base.VisitMethodDeclaration(node.WithIdentifier(SyntaxFactory.Identifier(placeholder)));
+
+            return base.VisitMethodDeclaration(node);
+        }
+
         public override SyntaxNode VisitParameter(ParameterSyntax node)
         {
             if (TryAddPlaceholder(node.Identifier, out var placeholder))

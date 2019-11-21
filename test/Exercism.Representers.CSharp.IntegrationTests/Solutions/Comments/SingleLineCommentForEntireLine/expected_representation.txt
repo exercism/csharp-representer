@@ -1,6 +1,6 @@
-public static class Fake
+public static class PLACEHOLDER_1
 {
-    public static string Test()
+    public static string PLACEHOLDER_2()
     {
         return "Test";
     }

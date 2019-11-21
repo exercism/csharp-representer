@@ -1,8 +1,8 @@
-public static class Fake
+public static class PLACEHOLDER_1
 {
-    public static int Test(int PLACEHOLDER_1, int PLACEHOLDER_2)
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3, int PLACEHOLDER_4)
     {
-        int Add(int PLACEHOLDER_3, int PLACEHOLDER_4) => PLACEHOLDER_3 + PLACEHOLDER_4;
-        return Add(PLACEHOLDER_1, PLACEHOLDER_2);
+        int Add(int PLACEHOLDER_5, int PLACEHOLDER_6) => PLACEHOLDER_5 + PLACEHOLDER_6;
+        return Add(PLACEHOLDER_3, PLACEHOLDER_4);
     }
 }

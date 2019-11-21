@@ -1,7 +1,7 @@
-public static class Fake
+public static class PLACEHOLDER_1
 {
-    public static DateTime Add(DateTime PLACEHOLDER_1)
+    public static DateTime PLACEHOLDER_2(DateTime PLACEHOLDER_3)
     {
-        return PLACEHOLDER_1.Add(TimeSpan.FromSeconds(1000000000));
+        return PLACEHOLDER_3.PLACEHOLDER_2(TimeSpan.FromSeconds(1000000000));
     }
 }
