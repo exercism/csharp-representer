@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -6,12 +7,11 @@ namespace Exercism.Representers.CSharp.Normalization
 {
     internal static class SyntaxNodeSimplifier
     {
-        public static SyntaxNode Simplify(this SyntaxNode node) =>
-            SyntaxRewriters.Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
+        public static SyntaxNode Simplify(this SyntaxNode node, Dictionary<string, string> mapping) =>
+            SyntaxRewriters(mapping).Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
         
-        private static CSharpSyntaxRewriter[] SyntaxRewriters => new CSharpSyntaxRewriter[]
+        private static CSharpSyntaxRewriter[] SyntaxRewriters(Dictionary<string, string> mapping) => new CSharpSyntaxRewriter[]
         {
-            // TODO: remove unneeded parentheses from method call
             new RemoveOptionalParentheses(),
             new SimplifyFullyQualifiedName(),
             new SimplifyBuiltInKeyword(),
@@ -20,7 +20,7 @@ namespace Exercism.Representers.CSharp.Normalization
             new LowerCaseToUpperCaseExponentNotation(),
             new RemoveUsingDirectives(),
             new RemoveComments(),
-            new NormalizeIdentifiers(),
+            new NormalizeIdentifiers(mapping),
             new NormalizeWhiteSpace()
         };
     }

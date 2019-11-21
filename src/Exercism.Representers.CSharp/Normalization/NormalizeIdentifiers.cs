@@ -7,7 +7,9 @@ namespace Exercism.Representers.CSharp.Normalization
 {   
     internal class NormalizeIdentifiers : CSharpSyntaxRewriter
     {
-        private readonly Dictionary<string, string> _identifierToPlaceholder = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _mapping;
+
+        public NormalizeIdentifiers(Dictionary<string, string> mapping) => _mapping = mapping;
 
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
@@ -51,14 +53,14 @@ namespace Exercism.Representers.CSharp.Normalization
 
         private bool TryAddPlaceholder(SyntaxToken identifier, out string placeholder)
         {
-            if (_identifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder))
+            if (_mapping.TryGetValue(identifier.ValueText, out placeholder))
                 return true;
             
-            placeholder = $"PLACEHOLDER_{_identifierToPlaceholder.Count + 1}";
-            return _identifierToPlaceholder.TryAdd(identifier.ValueText, placeholder);
+            placeholder = $"PLACEHOLDER_{_mapping.Count + 1}";
+            return _mapping.TryAdd(identifier.ValueText, placeholder);
         }
 
         private bool TryGetPlaceholder(SyntaxToken identifier, out string placeholder) =>
-            _identifierToPlaceholder.TryGetValue(identifier.ValueText, out placeholder);
+            _mapping.TryGetValue(identifier.ValueText, out placeholder);
     }
 }

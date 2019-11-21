@@ -25,6 +25,7 @@ function Update-Expected {
     $solutionsDir = Join-Path "test" "Exercism.Representers.CSharp.IntegrationTests" "Solutions"
     Generate-Solution-Representations $solutionsDir
     Move-Generated-Represenations-To-Expected
+    Move-Generated-Mappings-To-Expected
 }
 
 function Generate-Solution-Representations ([string] $SolutionsDir) {
@@ -34,6 +35,12 @@ function Generate-Solution-Representations ([string] $SolutionsDir) {
 function Move-Generated-Represenations-To-Expected ([string] $SolutionsDir) {
     Get-ChildItem $solutionsDir "representation.txt" -Recurse | ForEach-Object { 
         Move-Item -Force $_.FullName $_.FullName.Replace("representation", "expected_representation")
+    }
+}
+
+function Move-Generated-Mappings-To-Expected ([string] $SolutionsDir) {
+    Get-ChildItem $solutionsDir "mapping.json" -Recurse | ForEach-Object { 
+        Move-Item -Force $_.FullName $_.FullName.Replace("mapping", "expected_mapping")
     }
 }
 

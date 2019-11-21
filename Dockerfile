@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0.101-alpine3.10 AS build-env
 WORKDIR /app
 
 COPY generate.sh /opt/representer/bin/
@@ -9,10 +9,10 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -r linux-musl-x64 -o /opt/representer
+RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/representer
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-alpine
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0.1-alpine3.10
 WORKDIR /opt/representer
 COPY --from=build-env /opt/representer/ .
 ENTRYPOINT ["sh", "/opt/representer/bin/generate.sh"]
