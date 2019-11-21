@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Representers.CSharp.Simplification
+namespace Exercism.Representers.CSharp.Normalization
 {
     internal class RemoveComments : CSharpSyntaxRewriter
     {

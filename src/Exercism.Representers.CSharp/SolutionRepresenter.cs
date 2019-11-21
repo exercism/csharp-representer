@@ -1,4 +1,4 @@
-using Exercism.Representers.CSharp.Simplification;
+using Exercism.Representers.CSharp.Normalization;
 using Microsoft.CodeAnalysis;
 
 namespace Exercism.Representers.CSharp

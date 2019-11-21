@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Exercism.Representers.CSharp.Simplification
+namespace Exercism.Representers.CSharp.Normalization
 {
     internal static class ExpressionSyntaxExtensions
     {

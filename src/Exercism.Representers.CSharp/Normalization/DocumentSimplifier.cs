@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Simplification;
 
-namespace Exercism.Representers.CSharp.Simplification
+namespace Exercism.Representers.CSharp.Normalization
 {
     internal static class DocumentSimplifier
     {
