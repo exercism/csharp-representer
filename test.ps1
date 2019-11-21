@@ -28,7 +28,7 @@ function Update-Expected {
 }
 
 function Generate-Solution-Representations ([string] $SolutionsDir) {
-    ./bulk-generate.ps1 "fake" $solutionsDir
+    ./generate-in-bulk.ps1 "fake" $solutionsDir
 }
 
 function Move-Generated-Represenations-To-Expected ([string] $SolutionsDir) {
