@@ -9,7 +9,7 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/representer
+RUN dotnet publish -c Release -r linux-musl-x64 -o /opt/representer
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0.1-alpine3.10
