@@ -1,6 +1,6 @@
 # Exercism C# representer
 
-A tool that can create a normalized representation of C# solutions submitted to [Exercism](https://exercism.io).
+This repository contains the C# representer, which is an implementation of the [representer interface][representer-interface] that is shared across tracks. A [representer][representer-introduction] creates a general representation of a submission, in order to automatically give feedback on similar code.
 
 ## Generate a representation for a solution
 
@@ -39,3 +39,6 @@ This repository uses the [dotnet-format tool](https://github.com/dotnet/format/)
 ### Scripts
 
 The scripts in this repository are written in PowerShell. As PowerShell is cross-platform nowadays, you can also install it on [Linux](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux?view=powershell-6) and [macOS](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-macos?view=powershell-6).
+
+[representer-introduction]: https://github.com/exercism/automated-analysis/blob/master/docs/representers/introduction.md
+[representer-interface]: https://github.com/exercism/automated-analysis/blob/master/docs/representers/interface.md
