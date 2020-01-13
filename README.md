@@ -44,3 +44,4 @@ The scripts in this repository are written in PowerShell. As PowerShell is cross
 
 [representer-introduction]: https://github.com/exercism/automated-analysis/blob/master/docs/representers/introduction.md
 [representer-interface]: https://github.com/exercism/automated-analysis/blob/master/docs/representers/interface.md
+[roslyn]: https://docs.microsoft.com/nl-nl/dotnet/csharp/roslyn-sdk/
