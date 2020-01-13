@@ -1,6 +1,8 @@
 # Exercism C# representer
 
-This repository contains the C# representer, which is an implementation of the [representer interface][representer-interface] that is shared across tracks. A [representer][representer-introduction] creates a general representation of a submission, in order to automatically give feedback on similar code.
+A [representer][representer-introduction] creates a general representation of a submission, in order to automatically give feedback on similar code.
+
+This repository contains the C# representer, which implements the [representer interface][representer-interface]. It uses [Roslyn][roslyn] to parse the submission's source code into syntax trees, which are then normalized and output as a representation.
 
 ## Generate a representation for a solution
 
