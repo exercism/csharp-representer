@@ -8,7 +8,7 @@ COPY src/Exercism.Representers.CSharp/Exercism.Representers.CSharp.csproj ./
 RUN dotnet restore
 
 # Copy everything else and build
-COPY . ./
+COPY src/Exercism.Representers.CSharp/ ./
 RUN dotnet publish -c Release -r linux-musl-x64 -o /opt/representer
 
 # Build runtime image
