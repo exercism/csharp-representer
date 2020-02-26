@@ -18,6 +18,7 @@ namespace Exercism.Representers.CSharp.Normalization
             new InvertNegativeConditionals(),
             new AddBracesToIfAndElseStatements(),
             new LowerCaseToUpperCaseExponentNotation(),
+            new SimplifyBooleanEquality(),
             new RemoveUsingDirectives(),
             new RemoveComments(),
             new NormalizeIdentifiers(mapping),

@@ -1,0 +1,8 @@
+public static class PLACEHOLDER_1
+{
+    public static bool PLACEHOLDER_2()
+    {
+        var PLACEHOLDER_3 = true;
+        return PLACEHOLDER_3;
+    }
+}
