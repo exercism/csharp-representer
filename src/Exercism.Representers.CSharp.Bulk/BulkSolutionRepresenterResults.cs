@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Exercism.Representers.CSharp.Bulk
 {
-    internal class BulkSolutionPresenterResults
+    internal class BulkSolutionRepresenterResults
     {
-        public BulkSolutionPresenterResult[] Results { get; }
+        public BulkSolutionRepresenterResult[] Results { get; }
         public int UniqueSolutions { get; }
         public TimeSpan Elapsed { get; }
 
-        public BulkSolutionPresenterResults(BulkSolutionPresenterResult[] results)
+        public BulkSolutionRepresenterResults(BulkSolutionRepresenterResult[] results)
         {
             Results = results;
             Elapsed = results.Aggregate(TimeSpan.Zero, (total, result) => total + result.Elapsed);

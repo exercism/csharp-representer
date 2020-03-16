@@ -15,8 +15,8 @@ namespace Exercism.Representers.CSharp.Bulk
 
         private static void Analyze(Options options)
         {
-            var bulkSolutionPresenterResults = BulkSolutionPresenter.RunAll(options);
-            BulkSolutionPresenterResultsReport.Output(bulkSolutionPresenterResults);
+            var bulkSolutionRepresenterResults = BulkSolutionRepresenter.RunAll(options);
+            BulkSolutionRepresenterResultsReport.Output(bulkSolutionRepresenterResults);
         }
     }
 }
