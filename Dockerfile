@@ -5,11 +5,11 @@ COPY generate.sh /opt/representer/bin/
 
 # Copy csproj and restore as distinct layers
 COPY src/Exercism.Representers.CSharp/Exercism.Representers.CSharp.csproj ./
-RUN dotnet restore
+RUN dotnet restore -r linux-musl-x64
 
 # Copy everything else and build
 COPY src/Exercism.Representers.CSharp/ ./
-RUN dotnet publish -c Release -r linux-musl-x64 -o /opt/representer
+RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/representer --no-restore
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.0.1-alpine3.10
