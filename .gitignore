@@ -21,3 +21,7 @@ obj/
 
 # Plugin files
 .ionide/
+
+# Generated representation files
+test/*/Solutions/**/mapping.json
+test/*/Solutions/**/representation.txt
