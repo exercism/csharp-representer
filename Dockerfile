@@ -1,8 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 WORKDIR /app
 
-COPY generate.sh /opt/representer/bin/
-
 # Download exercism tooling webserver
 RUN wget -P /usr/local/bin https://github.com/exercism/local-tooling-webserver/releases/latest/download/exercism_local_tooling_webserver && \
     chmod +x /usr/local/bin/exercism_local_tooling_webserver
@@ -22,4 +20,6 @@ WORKDIR /opt/representer
 COPY --from=build /opt/representer/ .
 COPY --from=build /usr/local/bin/ /usr/local/bin/
 
-ENTRYPOINT ["sh", "/opt/representer/bin/generate.sh"]
+COPY run.sh /opt/representer/bin/
+
+ENTRYPOINT ["sh", "/opt/representer/bin/run.sh"]
