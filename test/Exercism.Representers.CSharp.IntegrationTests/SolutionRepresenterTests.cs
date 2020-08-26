@@ -21,5 +21,13 @@ namespace Exercism.Representers.CSharp.IntegrationTests
             Assert.Equal(representation.Expected, representation.Actual);
             Assert.Equal(mapping.Expected, mapping.Actual);
         }
+        
+        [Fact]
+        public void Single()
+        {
+            SolutionIsRepresentedCorrectly(new TestSolution("Fake"
+                // , "./Solutions/ReadOnly/Fields"));
+                , "./Solutions/DictionaryInitializations/ObjectInitWithNestedArgs"));
+        }
     }
 }

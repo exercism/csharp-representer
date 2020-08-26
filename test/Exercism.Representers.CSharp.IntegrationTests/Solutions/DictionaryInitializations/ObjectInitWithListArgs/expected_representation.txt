@@ -1,0 +1,4 @@
+public class PLACEHOLDER_1
+{
+    Dictionary<List<int>, List<string>> PLACEHOLDER_2 = new Dictionary<List<int>, List<string>>{{new List<int>{1}, new List<string>{"one"}}, };
+}
