@@ -12,6 +12,5 @@ namespace Exercism.Representers.CSharp.Normalization
 
             return base.VisitToken(token);
         }
-        
     }
 }
