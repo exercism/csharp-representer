@@ -19,6 +19,10 @@
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Solutions\ReadOnly\Fields\expected_representation.txt" />
+  </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">
     <RemoveDir Directories="$(OutputPath)\Solutions" />
