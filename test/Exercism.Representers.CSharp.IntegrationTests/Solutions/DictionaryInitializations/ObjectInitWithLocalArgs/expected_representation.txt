@@ -1,0 +1,9 @@
+public class PLACEHOLDER_1
+{
+    public void PLACEHOLDER_2()
+    {
+        var PLACEHOLDER_3 = 1;
+        var PLACEHOLDER_4 = "one";
+        var PLACEHOLDER_5 = new Dictionary<int, string>{{PLACEHOLDER_3, PLACEHOLDER_4}, };
+    }
+}
