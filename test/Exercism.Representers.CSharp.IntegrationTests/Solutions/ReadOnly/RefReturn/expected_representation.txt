@@ -1,0 +1,9 @@
+public class PLACEHOLDER_1
+{
+    private TimeSpan PLACEHOLDER_2;
+    public ref TimeSpan PLACEHOLDER_3() => ref PLACEHOLDER_2;
+    void PLACEHOLDER_4()
+    {
+        ref TimeSpan PLACEHOLDER_5 = ref PLACEHOLDER_3();
+    }
+}
