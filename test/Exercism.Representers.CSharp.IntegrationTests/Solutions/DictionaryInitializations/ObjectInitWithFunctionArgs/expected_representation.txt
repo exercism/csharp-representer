@@ -1,0 +1,8 @@
+public class PLACEHOLDER_1
+{
+    void PLACEHOLDER_2()
+    {
+        int LocalInt(int PLACEHOLDER_3) => PLACEHOLDER_3;
+        var PLACEHOLDER_4 = new Dictionary<int, Func<string, string>>{{LocalInt(5), PLACEHOLDER_5 => PLACEHOLDER_5}, };
+    }
+}

@@ -1,0 +1,10 @@
+public class PLACEHOLDER_1
+{
+    private Dictionary<object, object> PLACEHOLDER_2 = new Dictionary<object, object>{{(Func<Dictionary<object, object>, Dictionary<object, object>>)(PLACEHOLDER_3 =>
+    {
+        PLACEHOLDER_3 = new Dictionary<object, object>{{null, new Dictionary<int, string>{{1, "one"}, {2, "two"}, }}, };
+        return PLACEHOLDER_3;
+    }
+
+    ), (Func<int, int>)(PLACEHOLDER_4 => PLACEHOLDER_4)}, {DateTime.Now, (Func<int, int>)(PLACEHOLDER_4 => PLACEHOLDER_4)}, {DateTime.Now, (Func<int, int>)(PLACEHOLDER_4 => PLACEHOLDER_4)}, };
+}
