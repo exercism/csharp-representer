@@ -38,13 +38,12 @@ namespace Exercism.Representers.CSharp.Normalization
         {
             // rewriting using the semantic model must precede the other rewriters.
             // Presumably the syntax node hierarchy gets out of sync with the semantic model
-            // as parts are rewritten.
+            // as parts are rewritten so the normalization is not correct.
             //
             // Naively attempting to create the semantic model from the updated syntax node hierarchy
-            // fails to generate semantic operations on which semantic rewriting depends.  It may be 
-            // the case that CSharpSyntaxTree.Create() is not sufficient to generate operations and
-            // that the whole workspace/project rigmarole or perhaps the tree
-            // must be generated from text to be fully functional.
+            // fails to generate semantic operations on which semantic rewriting depends. This is
+            // most likely because the code is no longer correct for compilation but this
+            // hypothesis has not been tested.
             new NormalizeDictionaryInitialization(semanticModel), 
             //
             new RemoveOptionalParentheses(),
