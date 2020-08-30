@@ -21,10 +21,13 @@ namespace Exercism.Representers.CSharp.Normalization
 
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
+            SyntaxNode DefaultVisit() => base.VisitInitializerExpression(node);
+
             if (semanticModel == null)
             {
-                return base.VisitInitializerExpression(node);
+                return DefaultVisit();
             }
+
             try
             {
                 if (semanticModel.GetOperation(node) is IObjectOrCollectionInitializerOperation initializerOperation)
@@ -33,10 +36,11 @@ namespace Exercism.Representers.CSharp.Normalization
                     {
                         if (initializerOperation.Parent?.Type?.Name == null)
                         {
-                            Log.Error($"{nameof(NormalizeDictionaryInitialization)}: unable to retrieve the type information for {nameof(initializerOperation)}");
+                            Log.Error(
+                                $"{nameof(NormalizeDictionaryInitialization)}: unable to retrieve the type information for {nameof(initializerOperation)}");
                         }
 
-                        return base.VisitInitializerExpression(node);
+                        return DefaultVisit();
                         // presumably a list or some object or other
                     }
 
@@ -53,14 +57,14 @@ namespace Exercism.Representers.CSharp.Normalization
                     {
                         Log.Error(
                             $"{nameof(NormalizeDictionaryInitialization)}: {nameof(InitializerExpressionSyntax)} found with unexpected Kind {node.Kind()}");
-                        return base.VisitInitializerExpression(node);
+                        return DefaultVisit();
                     }
 
                     if (!initializerDetails.Success)
                     {
                         Log.Error(
                             $"{nameof(NormalizeDictionaryInitialization)}: dictionary initialization found with incorrect number of valid arguments (!=2)");
-                        return base.VisitInitializerExpression(node);
+                        return DefaultVisit();
                     }
 
                     var explodedInitializers = new List<KeyValuePair<SyntaxNode, SyntaxNode>>();
@@ -76,7 +80,14 @@ namespace Exercism.Representers.CSharp.Normalization
                     var replacementNode = dictionarySyntaxTree
                         .GetRoot()
                         .DescendantNodes()
-                        .First(n => n is InitializerExpressionSyntax);
+                        .FirstOrDefault(n => n is InitializerExpressionSyntax);
+                    if (replacementNode == default(SyntaxNode))
+                    {
+                        Log.Error(
+                            $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment");
+                        return DefaultVisit();
+                    }
+
                     return replacementNode;
                 }
             }
@@ -85,46 +96,50 @@ namespace Exercism.Representers.CSharp.Normalization
                 Log.Error(e, $"{nameof(NormalizeDictionaryInitialization)}: unknown error");
             }
 
-            return base.VisitInitializerExpression(node);
+            return DefaultVisit();
         }
 
         private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> Initializers)
             ExtractInitializersWithObjectSyntax(IObjectOrCollectionInitializerOperation initializerOperation)
         {
-            var initializers = new List<KeyValuePair<SyntaxNode, SyntaxNode>>();
-            foreach (var initializer in initializerOperation.Initializers)
+            try
             {
-                var arg0 = initializer
-                    .Descendants()
-                    .FirstOrDefault(d => d is IArgumentOperation);
-                var arg1 = (initializer as IAssignmentOperation)?.Value;
-                if (arg0 == null || arg1 == null || arg0.Syntax == null || arg1.Syntax == null)
-                {
-                    return (false, null);
-                }
-
-                initializers.Add(new KeyValuePair<SyntaxNode, SyntaxNode>(arg0.Syntax, arg1.Syntax));
+                var initializerSyntaxNodes = initializerOperation.Initializers
+                    .Select(initializer => new
+                    {
+                        arg0 = initializer.Descendants().FirstOrDefault(d => d is IArgumentOperation),
+                        arg1 = (initializer as IAssignmentOperation).Value
+                    })
+                    .Select(p => (p.arg0?.Syntax is null || p.arg1.Syntax is null)
+                        ? throw new NullReferenceException()
+                        : new KeyValuePair<SyntaxNode, SyntaxNode>(p.arg0.Syntax, p.arg1.Syntax))
+                    .ToList();
+                return (true, initializerSyntaxNodes);
             }
-
-            return (true, initializers);
+            catch (NullReferenceException)
+            {
+                return (false, null);
+            }
         }
 
         private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> Initializers)
             ExtractInitializersWithCollectionSyntax(IObjectOrCollectionInitializerOperation initializerOperation)
         {
-            var initializers = new List<KeyValuePair<SyntaxNode, SyntaxNode>>();
-            foreach (var initializer in initializerOperation.Initializers)
+            try
             {
-                var args = (initializer as IInvocationOperation)?.Arguments;
-                if (args == null || args?.Length != 2 || args?[0].Syntax == null || args?[1].Syntax == null)
-                {
-                    return (false, null);
-                }
-
-                initializers.Add(new KeyValuePair<SyntaxNode, SyntaxNode>(args?[0].Syntax, args?[1].Syntax));
+                var initializerSyntaxNodes = initializerOperation.Initializers
+                    .Select(initializer => (initializer as IInvocationOperation)?.Arguments)
+                    .Select(args =>
+                        (args?.Length != 2 || args?[0]?.Syntax is null || args?[1]?.Syntax is null)
+                            ? throw new NullReferenceException()
+                            : new KeyValuePair<SyntaxNode, SyntaxNode>(args?[0]?.Syntax, args?[1]?.Syntax)
+                    ).ToList();
+                return (true, initializerSyntaxNodes);
             }
-
-            return (true, initializers);
+            catch (NullReferenceException)
+            {
+                return (false, null);
+            }
         }
 
         private string BuildDictionaryAsText(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> initializerArgNodes)
