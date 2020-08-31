@@ -13,7 +13,12 @@ namespace Exercism.Representers.CSharp
         [Value(2, Required = true, HelpText = "The directory to which the results will be written")]
         public string OutputDirectory { get; }
 
-        public Options(string slug, string inputDirectory, string outputDirectory) =>
-            (Slug, InputDirectory, OutputDirectory) = (slug, inputDirectory, outputDirectory);
+        [Value(3, Required = false, HelpText = "A flag (used for unit testing) to prevent configuration of the logger")]
+        public bool SuppressLogConfiguration { get; }
+
+        public Options(string slug, string inputDirectory,
+            string outputDirectory, bool suppressLogConfiguration = false) =>
+            (Slug, InputDirectory, OutputDirectory, SuppressLogConfiguration) 
+            = (slug, inputDirectory, outputDirectory, suppressLogConfiguration);
     }
 }
