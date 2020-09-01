@@ -13,6 +13,6 @@ namespace Exercism.Representers.CSharp.IntegrationTests
 
         private static void RunRepresenter(TestSolution solution) =>
             Program.Main(new[] { solution.Slug, solution.Directory, solution.Directory, 
-                "--SuppressLogConfiguration" });
+                "--SkipLogConfiguration" });
     }
 }

@@ -13,7 +13,7 @@ namespace Exercism.Representers.CSharp
 
         private static void CreateRepresentation(Options options)
         {
-            if (!options.SuppressLogConfiguration)
+            if (!options.SkipLogConfiguration)
             {
                 Logging.Configure();
             }
