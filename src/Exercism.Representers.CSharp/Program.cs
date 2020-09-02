@@ -7,14 +7,17 @@ namespace Exercism.Representers.CSharp
     {
         public static void Main(string[] args)
         {
-            Logging.Configure();
-
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(CreateRepresentation);
         }
 
         private static void CreateRepresentation(Options options)
         {
+            if (!options.SkipLogConfiguration)
+            {
+                Logging.Configure();
+            }
+
             Log.Information("Creating representation for {Exercise} solution in directory {Directory}", options.Slug, options.InputDirectory);
 
             var solution = SolutionParser.Parse(options);
