@@ -17,13 +17,13 @@ namespace Exercism.Representers.CSharp.Normalization
         private static SemanticModel CreateSemanticModel(SyntaxNode node)
         {
             var tree = node.SyntaxTree;
-            var refAssemblies = new List<MetadataReference>
-            {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-                MetadataReference.CreateFromFile(typeof(Dictionary<int, string>).Assembly.Location)
-            };
+            var refAssemblies = ((string)System.AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))
+                .Split(System.IO.Path.PathSeparator)
+                .Select(assemblyPath => MetadataReference.CreateFromFile(assemblyPath))
+                .OfType<MetadataReference>()
+                .ToArray();
             CSharpCompilation cmp = CSharpCompilation.Create(
-                "FakeCode", new SyntaxTree[] {tree}).AddReferences(refAssemblies);
+                "FakeCode", new[] {tree}).AddReferences(refAssemblies);
 
             var sm = cmp.GetSemanticModel(tree);
             if (sm == null)
