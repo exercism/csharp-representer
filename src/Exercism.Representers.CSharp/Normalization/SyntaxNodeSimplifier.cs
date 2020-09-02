@@ -17,11 +17,11 @@ namespace Exercism.Representers.CSharp.Normalization
         private static SemanticModel CreateSemanticModel(SyntaxNode node)
         {
             var tree = node.SyntaxTree;
-            var refAssemblies = ((string)System.AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES"))
-                .Split(System.IO.Path.PathSeparator)
-                .Select(assemblyPath => MetadataReference.CreateFromFile(assemblyPath))
-                .OfType<MetadataReference>()
-                .ToArray();
+            var refAssemblies = new List<MetadataReference>
+            {
+                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
+                MetadataReference.CreateFromFile(typeof(Dictionary<int, string>).Assembly.Location)
+            };
             CSharpCompilation cmp = CSharpCompilation.Create(
                 "FakeCode", new[] {tree}).AddReferences(refAssemblies);
 
@@ -37,13 +37,8 @@ namespace Exercism.Representers.CSharp.Normalization
             => new CSharpSyntaxRewriter[]
         {
             // rewriting using the semantic model must precede the other rewriters.
-            // Presumably the syntax node hierarchy gets out of sync with the semantic model
+            // The syntax node hierarchy gets out of sync with the semantic model
             // as parts are rewritten so the normalization is not correct.
-            //
-            // Naively attempting to create the semantic model from the updated syntax node hierarchy
-            // fails to generate semantic operations on which semantic rewriting depends. This is
-            // most likely because the code is no longer correct for compilation but this
-            // hypothesis has not been tested.
             new NormalizeDictionaryInitialization(semanticModel), 
             //
             new RemoveOptionalParentheses(),

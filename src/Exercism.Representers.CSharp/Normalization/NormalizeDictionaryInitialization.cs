@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -43,57 +44,49 @@ namespace Exercism.Representers.CSharp.Normalization
 
             try
             {
-                if (semanticModel.GetOperation(node) is IObjectOrCollectionInitializerOperation initializerOperation)
+                var initializerOperation = semanticModel.GetOperation(node) as IObjectOrCollectionInitializerOperation;
+                if (initializerOperation == default)
                 {
-                    if (initializerOperation.Parent?.Type?.Name != "Dictionary")
-                    {
-                        if (initializerOperation.Parent?.Type?.Name == default)
-                        {
-                            Log.Error(
-                                $"{nameof(NormalizeDictionaryInitialization)}: unable to retrieve the type information for {nameof(initializerOperation)}");
-                        }
-
-                        return DefaultVisit();
-                        // presumably a list or some object or other
-                    }
-
-                    var initializerExtractionResults
-                        = node.Kind() switch
-                        {
-                            SyntaxKind.CollectionInitializerExpression
-                            => ExtractInitializersWithCollectionSyntax(initializerOperation),
-                            SyntaxKind.ObjectInitializerExpression
-                            => ExtractInitializersWithObjectSyntax(initializerOperation),
-                            _ 
-                            => throw new InvalidKindException{Kind = node.Kind()}
-                        };
-
-                    if (!initializerExtractionResults.Success)
-                    {
-                        return DefaultVisit();
-                    }
-
-                    var visitedInitializerSyntaxNodes = initializerExtractionResults.InitializerSyntaxNodes
-                        .Select(initializer => new KeyValuePair<SyntaxNode, SyntaxNode>(
-                            this.Visit(initializer.Key),
-                            this.Visit(initializer.Value))
-                        );
-
-                    var dictionaryAsText = BuildDictionaryAsText(visitedInitializerSyntaxNodes);
-                    var dictionarySyntaxTree = CSharpSyntaxTree.ParseText(dictionaryAsText);
-                    var replacementNode = dictionarySyntaxTree
-                        .GetRoot()
-                        .DescendantNodes()
-                        .FirstOrDefault(n => n is InitializerExpressionSyntax);
-                    if (replacementNode == default)
-                    {
-                        Log.Error(
-                            $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment");
-                        return DefaultVisit();
-                    }
-
-                    return base.VisitInitializerExpression(replacementNode);
+                    return DefaultVisit();
                 }
+
+                if (!IsDictionary(initializerOperation))
+                {
+                    return DefaultVisit();
+                }
+
+                var initializerExtractionResults
+                    = node.Kind() switch
+                    {
+                        SyntaxKind.CollectionInitializerExpression
+                        => ExtractInitializersWithCollectionSyntax(initializerOperation),
+                        SyntaxKind.ObjectInitializerExpression
+                        => ExtractInitializersWithObjectSyntax(initializerOperation),
+                        _ 
+                        => throw new InvalidKindException{Kind = node.Kind()}
+                    };
+
+                if (!initializerExtractionResults.Success)
+                {
+                    return DefaultVisit();
+                }
+
+                var visitedInitializerSyntaxNodes = initializerExtractionResults.InitializerSyntaxNodes
+                    .Select(initializer => new KeyValuePair<SyntaxNode, SyntaxNode>(
+                        this.Visit(initializer.Key),
+                        this.Visit(initializer.Value))
+                    );
+
+                var replacementNode = BuildReplacementSyntax(visitedInitializerSyntaxNodes);
+                if (replacementNode == default)
+                {
+                    Log.Error(
+                        $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment");
+                    return DefaultVisit();
+                }
+
+                return base.VisitInitializerExpression(replacementNode as InitializerExpressionSyntax);
+                
             }
             catch (InvalidKindException ike)
             {
@@ -106,6 +99,34 @@ namespace Exercism.Representers.CSharp.Normalization
             }
 
             return DefaultVisit();
+        }
+
+        private SyntaxNode BuildReplacementSyntax(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
+        {
+            var dictionaryAsText = BuildDictionaryAsText(visitedInitializerSyntaxNodes);
+            var dictionarySyntaxTree = CSharpSyntaxTree.ParseText(dictionaryAsText);
+            var replacementNode = dictionarySyntaxTree
+                .GetRoot()
+                .DescendantNodes()
+                .FirstOrDefault(n => n is InitializerExpressionSyntax);
+            return replacementNode;
+        }
+
+        private bool IsDictionary(IObjectOrCollectionInitializerOperation initializerOperation)
+        {
+            if (initializerOperation.Parent?.Type?.Name != "Dictionary")
+            {
+                if (initializerOperation.Parent?.Type?.Name == default)
+                {
+                    Log.Error(
+                        $"{nameof(NormalizeDictionaryInitialization)}: unable to retrieve the type information for {nameof(initializerOperation)}");
+                }
+
+                return false;
+                // presumably a list or some object or other
+            }
+
+            return true;
         }
 
         private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodes)
