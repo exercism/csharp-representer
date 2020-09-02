@@ -92,7 +92,7 @@ namespace Exercism.Representers.CSharp.Normalization
                         return DefaultVisit();
                     }
 
-                    return replacementNode;
+                    return base.VisitInitializerExpression(replacementNode);
                 }
             }
             catch (InvalidKindException ike)
