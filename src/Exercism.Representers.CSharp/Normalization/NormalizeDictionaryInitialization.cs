@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using Microsoft.CodeAnalysis.Operations;
 using Serilog;
 
@@ -62,8 +60,8 @@ namespace Exercism.Representers.CSharp.Normalization
                         => ExtractInitializersWithCollectionSyntax(initializerOperation),
                         SyntaxKind.ObjectInitializerExpression
                         => ExtractInitializersWithObjectSyntax(initializerOperation),
-                        _ 
-                        => throw new InvalidKindException{Kind = node.Kind()}
+                        _
+                        => throw new InvalidKindException {Kind = node.Kind()}
                     };
 
                 if (!initializerExtractionResults.Success)
@@ -77,7 +75,9 @@ namespace Exercism.Representers.CSharp.Normalization
                         this.Visit(initializer.Value))
                     );
 
-                var replacementNode = BuildReplacementSyntax(visitedInitializerSyntaxNodes);
+                var replacementNode
+                    = BuildReplacementSyntaxWithCollectionInitialization(node.Kind(), visitedInitializerSyntaxNodes);
+                
                 if (replacementNode == default)
                 {
                     Log.Error(
@@ -86,7 +86,6 @@ namespace Exercism.Representers.CSharp.Normalization
                 }
 
                 return base.VisitInitializerExpression(replacementNode as InitializerExpressionSyntax);
-                
             }
             catch (InvalidKindException ike)
             {
@@ -99,17 +98,6 @@ namespace Exercism.Representers.CSharp.Normalization
             }
 
             return DefaultVisit();
-        }
-
-        private SyntaxNode BuildReplacementSyntax(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
-        {
-            var dictionaryAsText = BuildDictionaryAsText(visitedInitializerSyntaxNodes);
-            var dictionarySyntaxTree = CSharpSyntaxTree.ParseText(dictionaryAsText);
-            var replacementNode = dictionarySyntaxTree
-                .GetRoot()
-                .DescendantNodes()
-                .FirstOrDefault(n => n is InitializerExpressionSyntax);
-            return replacementNode;
         }
 
         private bool IsDictionary(IObjectOrCollectionInitializerOperation initializerOperation)
@@ -141,7 +129,9 @@ namespace Exercism.Representers.CSharp.Normalization
                         arg1 = (initializer as IAssignmentOperation)?.Value
                     })
                     .Select(p => (p.arg0?.Syntax == default || p.arg1?.Syntax == default)
-                        ? throw new NullReferenceException(p.arg0?.Syntax == default ? "arg0 is invalid" : "arg1 is invalid" + $" in '{initializerOperation.Syntax}'")
+                        ? throw new NullReferenceException(p.arg0?.Syntax == default
+                            ? "arg0 is invalid"
+                            : "arg1 is invalid" + $" in '{initializerOperation.Syntax}'")
                         : new KeyValuePair<SyntaxNode, SyntaxNode>(p.arg0.Syntax, p.arg1.Syntax))
                     .ToList();
                 return (true, initializerSyntaxNodes);
@@ -163,7 +153,7 @@ namespace Exercism.Representers.CSharp.Normalization
                 {
                     _ when args == default => "args is null",
                     _ when args?.Length != 2 => $"invalid number of arguments: {args?.Length}",
-                    _ when args?[0]?.Syntax == default && args?[1]?.Syntax == default 
+                    _ when args?[0]?.Syntax == default && args?[1]?.Syntax == default
                     => "args are both invalid",
                     _ when args?[0]?.Syntax == default => "arg 0 is invalid",
                     _ => "arg 1 is invalid"
@@ -188,17 +178,38 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private string BuildDictionaryAsText(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> initializerArgNodes)
+
+        private SyntaxNode BuildReplacementSyntaxWithCollectionInitialization(SyntaxKind initializationKind
+            ,IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("var dict = new Dictionary{");
-            foreach (var initializerArg in initializerArgNodes)
+            var KeyExtractor
+                = initializationKind == SyntaxKind.CollectionInitializerExpression
+                ? (Func<KeyValuePair<SyntaxNode,SyntaxNode>, SyntaxNode>)(p => p.Key)
+                : p => p.Key.ChildNodes().FirstOrDefault();
+
+            var initializerTree = new List<SyntaxNodeOrToken>();
+
+            foreach (var pair in visitedInitializerSyntaxNodes)
             {
-                sb.AppendLine($"{{{initializerArg.Key.GetText()}, {initializerArg.Value.GetText()}}},");
+                var initializer = InitializerExpression(
+                    SyntaxKind.ComplexElementInitializerExpression,
+                    SeparatedList<ExpressionSyntax>(
+                        new SyntaxNodeOrToken[]
+                        {
+                            KeyExtractor(pair),
+                            Token(SyntaxKind.CommaToken),
+                            pair.Value
+                        }
+                    ));
+                initializerTree.Add(initializer);
+                initializerTree.Add(Token(SyntaxKind.CommaToken));
             }
 
-            sb.AppendLine("};");
-            return sb.ToString();
+            return InitializerExpression(
+                SyntaxKind.CollectionInitializerExpression,
+                SeparatedList<ExpressionSyntax>(
+                    initializerTree.ToArray()
+                ));
         }
     }
 }
