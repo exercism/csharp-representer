@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 using Microsoft.CodeAnalysis.Operations;
 using Serilog;
 
@@ -77,7 +75,7 @@ namespace Exercism.Representers.CSharp.Normalization
                         this.Visit(initializer.Value))
                     );
 
-                var replacementNode = BuildReplacementSyntax(visitedInitializerSyntaxNodes);
+                var replacementNode = BuildReplacementSyntaxWithCollectionInitialization(node.Kind(), visitedInitializerSyntaxNodes);
                 if (replacementNode == default)
                 {
                     Log.Error(
@@ -99,17 +97,6 @@ namespace Exercism.Representers.CSharp.Normalization
             }
 
             return DefaultVisit();
-        }
-
-        private SyntaxNode BuildReplacementSyntax(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
-        {
-            var dictionaryAsText = BuildDictionaryAsText(visitedInitializerSyntaxNodes);
-            var dictionarySyntaxTree = CSharpSyntaxTree.ParseText(dictionaryAsText);
-            var replacementNode = dictionarySyntaxTree
-                .GetRoot()
-                .DescendantNodes()
-                .FirstOrDefault(n => n is InitializerExpressionSyntax);
-            return replacementNode;
         }
 
         private bool IsDictionary(IObjectOrCollectionInitializerOperation initializerOperation)
@@ -188,17 +175,37 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private string BuildDictionaryAsText(IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> initializerArgNodes)
+        private SyntaxNode BuildReplacementSyntaxWithCollectionInitialization(SyntaxKind initializationKind
+            ,IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("var dict = new Dictionary{");
-            foreach (var initializerArg in initializerArgNodes)
+            var KeyExtractor
+                = initializationKind == SyntaxKind.CollectionInitializerExpression
+                    ? (Func<KeyValuePair<SyntaxNode,SyntaxNode>, SyntaxNode>)(p => p.Key)
+                    : p => p.Key.ChildNodes().FirstOrDefault();
+
+            var initializerTree = new List<SyntaxNodeOrToken>();
+
+            foreach (var pair in visitedInitializerSyntaxNodes)
             {
-                sb.AppendLine($"{{{initializerArg.Key.GetText()}, {initializerArg.Value.GetText()}}},");
+                var initializer = InitializerExpression(
+                    SyntaxKind.ComplexElementInitializerExpression,
+                    SeparatedList<ExpressionSyntax>(
+                        new SyntaxNodeOrToken[]
+                        {
+                            KeyExtractor(pair),
+                            Token(SyntaxKind.CommaToken),
+                            pair.Value
+                        }
+                    ));
+                initializerTree.Add(initializer);
+                initializerTree.Add(Token(SyntaxKind.CommaToken));
             }
 
-            sb.AppendLine("};");
-            return sb.ToString();
+            return InitializerExpression(
+                SyntaxKind.CollectionInitializerExpression,
+                SeparatedList<ExpressionSyntax>(
+                    initializerTree.ToArray()
+                ));
         }
     }
 }
