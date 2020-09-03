@@ -15,7 +15,7 @@ namespace Exercism.Representers.CSharp.Normalization
         {
             public SyntaxKind Kind;
         }
-        
+
         public override SyntaxNode VisitInitializerExpression(InitializerExpressionSyntax node)
         {
             SyntaxNode DefaultVisit() => base.VisitInitializerExpression(node);
@@ -50,7 +50,7 @@ namespace Exercism.Representers.CSharp.Normalization
                     );
 
                 var replacementNode
-                    = BuildReplacementSyntaxWithCollectionInitialization(node.Kind(), visitedInitializerSyntaxNodes);
+                    = BuildReplacementSyntaxWithCollectionInitialization(visitedInitializerSyntaxNodes);
 
                 if (replacementNode == default)
                 {
@@ -76,7 +76,7 @@ namespace Exercism.Representers.CSharp.Normalization
 
         private bool IsDictionary(InitializerExpressionSyntax initializerExpression)
         {
-            var isDictionary = initializerExpression?.Parent?.ChildNodes()?.FirstOrDefault().GetText()?.ToString()
+            var isDictionary = initializerExpression?.Parent?.ChildNodes()?.FirstOrDefault()?.GetText()?.ToString()
                 ?.StartsWith("Dictionary");
             if (!isDictionary.HasValue)
             {
@@ -149,12 +149,12 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private SyntaxNode BuildReplacementSyntaxWithCollectionInitialization(SyntaxKind initializationKind
-            , IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> visitedInitializerSyntaxNodes)
+        private SyntaxNode BuildReplacementSyntaxWithCollectionInitialization(
+            IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> initializerSyntaxNodePairs)
         {
-            var initializerTree = new List<SyntaxNodeOrToken>();
+            var initializerTrees = new List<SyntaxNodeOrToken>();
 
-            foreach (var pair in visitedInitializerSyntaxNodes)
+            foreach (var pair in initializerSyntaxNodePairs)
             {
                 var initializer = InitializerExpression(
                     SyntaxKind.ComplexElementInitializerExpression,
@@ -166,14 +166,14 @@ namespace Exercism.Representers.CSharp.Normalization
                             pair.Value
                         }
                     ));
-                initializerTree.Add(initializer);
-                initializerTree.Add(Token(SyntaxKind.CommaToken));
+                initializerTrees.Add(initializer);
+                initializerTrees.Add(Token(SyntaxKind.CommaToken));
             }
 
             return InitializerExpression(
                 SyntaxKind.CollectionInitializerExpression,
                 SeparatedList<ExpressionSyntax>(
-                    initializerTree.ToArray()
+                    initializerTrees.ToArray()
                 ));
         }
     }

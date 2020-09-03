@@ -13,7 +13,6 @@ namespace Exercism.Representers.CSharp.Normalization
         private static CSharpSyntaxRewriter[] SyntaxRewriters(Dictionary<string, string> mapping)
             => new CSharpSyntaxRewriter[]
         {
-            new NormalizeDictionaryInitialization(), 
             new RemoveOptionalParentheses(),
             new SimplifyFullyQualifiedName(),
             new SimplifyBuiltInKeyword(),
@@ -25,6 +24,9 @@ namespace Exercism.Representers.CSharp.Normalization
             new RemoveUsingDirectives(),
             new RemoveComments(),
             new NormalizeIdentifiers(mapping),
+            new NormalizeDictionaryInitialization(),
+            // NormalizeWhiteSpace() must be last rewriter as
+            // the unit test expected values have a whitespace dependency
             new NormalizeWhiteSpace(),
         };
     }
