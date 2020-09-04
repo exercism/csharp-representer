@@ -43,23 +43,11 @@ namespace Exercism.Representers.CSharp.Normalization
                     return DefaultVisit();
                 }
 
-                var visitedInitializerSyntaxNodePairs = initializerExtractionResults.InitializerSyntaxNodePairs
-                    .Select(initializer => new KeyValuePair<SyntaxNode, SyntaxNode>(
-                        this.Visit(initializer.Key),
-                        this.Visit(initializer.Value))
-                    );
-
                 var replacementNode
-                    = BuildReplacementSyntaxWithCollectionInitialization(visitedInitializerSyntaxNodePairs);
+                    = BuildReplacementSyntaxWithCollectionInitialization(initializerExtractionResults.InitializerSyntaxNodePairs);
 
-                if (replacementNode == default)
-                {
-                    var message
-                        = $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment";
-                    throw new NullReferenceException(message);
-                }
 
-                return base.VisitInitializerExpression(replacementNode as InitializerExpressionSyntax);
+                return base.VisitInitializerExpression(replacementNode);
             }
             catch (InvalidKindException ike)
             {
@@ -74,42 +62,18 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private bool IsDictionary(InitializerExpressionSyntax initializerExpression)
-        {
-            var isDictionary = initializerExpression?.Parent?.ChildNodes()?.FirstOrDefault()?.GetText()?.ToString()
-                ?.StartsWith("Dictionary");
-            if (!isDictionary.HasValue)
-            {
-                Log.Error(
-                    $"{nameof(NormalizeDictionaryInitialization)}: unable to retrieve the type information for {nameof(initializerExpression)}");
-                return false;
-            }
-
-            if (!isDictionary.Value)
-            {
-                return false;
-                // some other sort of object
-            }
-
-            return true;
-        }
+        private static bool IsDictionary(InitializerExpressionSyntax initializerExpression) =>
+            initializerExpression?.Parent is ObjectCreationExpressionSyntax objectCreationExpression &&
+            objectCreationExpression.Type is GenericNameSyntax genericName &&
+            genericName.Identifier.Text == "Dictionary";
 
         private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodePairs)
             ExtractInitializersWithObjectSyntax(InitializerExpressionSyntax initializerExpression)
         {
-            ArgumentSyntax GetArguemntSyntax(SyntaxNode node)
-            {
-                if (!node.ChildNodes().Any())
-                {
-                    return null;
-                }
-
-                if (node.ChildNodes().First() is ArgumentSyntax)
-                {
-                    return node.ChildNodes().First() as ArgumentSyntax;
-                }
-
-                return GetArguemntSyntax(node.ChildNodes().First());
+            ArgumentSyntax GetArguemntSyntax(SyntaxNode node) =>
+                node.DescendantNodes()
+                    .OfType<ArgumentSyntax>()
+                    .FirstOrDefault();
             }
 
             try

@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Exercism.Representers.CSharp.IntegrationTests
 {
-    public partial class SolutionRepresenterTests
+    public class SolutionRepresenterTests
     {
         public SolutionRepresenterTests(ITestOutputHelper output)
         {
