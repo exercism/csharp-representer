@@ -74,7 +74,6 @@ namespace Exercism.Representers.CSharp.Normalization
                 node.DescendantNodes()
                     .OfType<ArgumentSyntax>()
                     .FirstOrDefault();
-            }
 
             try
             {
@@ -113,7 +112,7 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private SyntaxNode BuildReplacementSyntaxWithCollectionInitialization(
+        private InitializerExpressionSyntax BuildReplacementSyntaxWithCollectionInitialization(
             IEnumerable<KeyValuePair<SyntaxNode, SyntaxNode>> initializerSyntaxNodePairs)
         {
             var initializerTrees = new List<SyntaxNodeOrToken>();
