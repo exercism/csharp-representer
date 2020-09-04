@@ -43,14 +43,14 @@ namespace Exercism.Representers.CSharp.Normalization
                     return DefaultVisit();
                 }
 
-                var visitedInitializerSyntaxNodes = initializerExtractionResults.InitializerSyntaxNodes
+                var visitedInitializerSyntaxNodePairs = initializerExtractionResults.InitializerSyntaxNodePairs
                     .Select(initializer => new KeyValuePair<SyntaxNode, SyntaxNode>(
                         this.Visit(initializer.Key),
                         this.Visit(initializer.Value))
                     );
 
                 var replacementNode
-                    = BuildReplacementSyntaxWithCollectionInitialization(visitedInitializerSyntaxNodes);
+                    = BuildReplacementSyntaxWithCollectionInitialization(visitedInitializerSyntaxNodePairs);
 
                 if (replacementNode == default)
                 {
@@ -65,13 +65,13 @@ namespace Exercism.Representers.CSharp.Normalization
             {
                 Log.Error(
                     $"{nameof(NormalizeDictionaryInitialization)}: {nameof(InitializerExpressionSyntax)} found with unexpected Kind {ike.Kind}");
+                throw;
             }
             catch (Exception e)
             {
                 Log.Error(e, $"{nameof(NormalizeDictionaryInitialization)}: unknown error");
+                throw;
             }
-
-            return DefaultVisit();
         }
 
         private bool IsDictionary(InitializerExpressionSyntax initializerExpression)
@@ -94,7 +94,7 @@ namespace Exercism.Representers.CSharp.Normalization
             return true;
         }
 
-        private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodes)
+        private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodePairs)
             ExtractInitializersWithObjectSyntax(InitializerExpressionSyntax initializerExpression)
         {
             ArgumentSyntax GetArguemntSyntax(SyntaxNode node)
@@ -129,7 +129,7 @@ namespace Exercism.Representers.CSharp.Normalization
             }
         }
 
-        private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodes)
+        private (bool Success, List<KeyValuePair<SyntaxNode, SyntaxNode>> InitializerSyntaxNodePairs)
             ExtractInitializersWithCollectionSyntax(InitializerExpressionSyntax initializerExpression)
         {
             try
