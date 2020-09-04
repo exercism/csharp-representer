@@ -54,9 +54,9 @@ namespace Exercism.Representers.CSharp.Normalization
 
                 if (replacementNode == default)
                 {
-                    Log.Error(
-                        $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment");
-                    return DefaultVisit();
+                    var message
+                        = $"{nameof(NormalizeDictionaryInitialization)}: failed to find a {nameof(InitializerExpressionSyntax)} node in generated dictionary fragment";
+                    throw new NullReferenceException(message);
                 }
 
                 return base.VisitInitializerExpression(replacementNode as InitializerExpressionSyntax);
