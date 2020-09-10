@@ -1,0 +1,5 @@
+public class PLACEHOLDER_1
+{
+    private const int PLACEHOLDER_2 = 5;
+    Dictionary<string, int> PLACEHOLDER_3 = new Dictionary<string, int>{{"System.DateTime.Now is " + $"{DateTime.Now}", 5 * 10 / 3 + PLACEHOLDER_2}, };
+}
