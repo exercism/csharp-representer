@@ -13,7 +13,7 @@ updates:
     schedule:
       interval: "daily"
       
-  # Enable updates to the dependencies of our Dockerfile
+  # Keep Docker dependencies up-to-date
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
