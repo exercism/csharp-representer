@@ -14,7 +14,7 @@ updates:
       interval: "daily"
       
   # Enable updates to the dependencies of our Dockerfile
-  - package-ecosystem: docker
-    directory: '/'
+  - package-ecosystem: "docker"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "daily"
