@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.401-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.13-amd64 AS build
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
@@ -10,7 +10,7 @@ COPY src/Exercism.Representers.CSharp/ ./
 RUN dotnet publish -r linux-musl-x64 -c Release -o /opt/representer --no-restore
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:3.1.7-alpine
+FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine3.13-amd64 AS runtime
 WORKDIR /opt/representer
 
 COPY --from=build /opt/representer/ .

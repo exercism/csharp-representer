@@ -6,10 +6,7 @@ public struct Fake
         return PLACEHOLDER_1;
     }
 
-    public int P
-    {
-        get => PLACEHOLDER_1;
-    }
+    public int P { get => PLACEHOLDER_1; }
 
     public int P2
     {
