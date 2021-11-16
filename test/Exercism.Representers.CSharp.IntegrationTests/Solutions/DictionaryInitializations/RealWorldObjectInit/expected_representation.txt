@@ -1,51 +1,21 @@
 public class PLACEHOLDER_1
 {
-    public Identity Admin
-    {
-        get;
-    }
-
-    = new Identity{Email = "admin@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "green", PhiltrumWidth = 0.9m}, NameAndAddress = new List<string>{"Chanakya", "Mombai", "India"}};
-    public IDictionary<string, Identity> Developers
-    {
-        get;
-    }
-
-    = new Dictionary<string, Identity>{{"Bertrand", new Identity{Email = "bert@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "blue", PhiltrumWidth = 0.8m}, NameAndAddress = new List<string>{"Bertrand", "Paris", "France"}}}, {"Anders", new Identity{Email = "anders@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "brown", PhiltrumWidth = 0.85m}, NameAndAddress = new List<string>{"Anders", "Redmond", "USA"}}}, };
+    public Identity Admin { get; } = new Identity{Email = "admin@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "green", PhiltrumWidth = 0.9m}, NameAndAddress = new List<string>{"Chanakya", "Mombai", "India"}};
+    public IDictionary<string, Identity> Developers { get; } = new Dictionary<string, Identity>{{"Bertrand", new Identity{Email = "bert@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "blue", PhiltrumWidth = 0.8m}, NameAndAddress = new List<string>{"Bertrand", "Paris", "France"}}}, {"Anders", new Identity{Email = "anders@ex.ism", FacialFeatures = new FacialFeatures{EyeColor = "brown", PhiltrumWidth = 0.85m}, NameAndAddress = new List<string>{"Anders", "Redmond", "USA"}}}, };
 }
 
 public class PLACEHOLDER_2
 {
-    public string EyeColor
-    {
-        get;
-        set;
-    }
+    public string EyeColor { get; set; }
 
-    public decimal PhiltrumWidth
-    {
-        get;
-        set;
-    }
+    public decimal PhiltrumWidth { get; set; }
 }
 
 public class PLACEHOLDER_3
 {
-    public string Email
-    {
-        get;
-        set;
-    }
+    public string Email { get; set; }
 
-    public PLACEHOLDER_2 FacialFeatures
-    {
-        get;
-        set;
-    }
+    public PLACEHOLDER_2 FacialFeatures { get; set; }
 
-    public IList<string> NameAndAddress
-    {
-        get;
-        set;
-    }
+    public IList<string> NameAndAddress { get; set; }
 }
