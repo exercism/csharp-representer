@@ -4,3 +4,4 @@
 src/Exercism.Representers.CSharp/bin
 src/Exercism.Representers.CSharp/obj
 .appends
+.git
