@@ -17,9 +17,10 @@ namespace Exercism.Representers.CSharp.IntegrationTests
         [TestSolutionsData]
         public void SolutionIsRepresentedCorrectly(TestSolution solution)
         {
-            var (representation, mapping) = TestSolutionRepresenter.Run(solution);
+            var (representation, mapping, metadata) = TestSolutionRepresenter.Run(solution);
             Assert.Equal(representation.Expected, representation.Actual);
             Assert.Equal(mapping.Expected, mapping.Actual);
+            Assert.Equal(metadata.ExpectedVersion, metadata.ActualVersion);
         }
     }
 }
