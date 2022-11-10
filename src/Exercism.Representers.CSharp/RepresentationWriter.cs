@@ -7,9 +7,15 @@ namespace Exercism.Representers.CSharp
     {
         public static void WriteToFile(Options options, Representation representation)
         {
-            File.WriteAllText(GetRepresentationTextFilePath(options), representation.Text.Simplified);
-            File.WriteAllText(GetRepresentationJsonFilePath(options), JsonSerializer.Serialize(representation.Metadata));
+            File.WriteAllText(GetRepresentationTextFilePath(options), representation.ToRepresentationText());
+            File.WriteAllText(GetRepresentationJsonFilePath(options), representation.ToRepresentationJson());
         }
+        
+        private static string ToRepresentationText(this Representation representation) =>
+            representation.Text.Simplified;
+
+        private static string ToRepresentationJson(this Representation representation) =>
+            JsonSerializer.Serialize(representation.Metadata, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
 
         private static string GetRepresentationTextFilePath(Options options) =>
             Path.GetFullPath(Path.Combine(options.OutputDirectory, "representation.txt"));

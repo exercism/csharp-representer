@@ -11,10 +11,10 @@ namespace Exercism.Representers.CSharp.IntegrationTests
             new(solution.ReadExpected(), solution.ReadActual());
         
         private static int ReadActual(this TestSolution solution) =>
-            JsonSerializer.SerializeToDocument(solution.ReadFile("representation.json")).RootElement.GetProperty("version").GetInt32();
+            JsonDocument.Parse(solution.ReadFile("representation.json")).RootElement.GetProperty("version").GetInt32();
 
         private static int ReadExpected(this TestSolution solution) =>
-            JsonSerializer.SerializeToDocument(solution.ReadFile("expected_representation.json")).RootElement.GetProperty("version").GetInt32();
+            JsonDocument.Parse(solution.ReadFile("expected_representation.json")).RootElement.GetProperty("version").GetInt32();
 
         private static string ReadFile(this TestSolution solution, string fileName) =>
             File.ReadAllText(Path.Combine(solution.Directory, fileName));
