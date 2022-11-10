@@ -20,7 +20,7 @@ namespace Exercism.Representers.CSharp
             var simplifiedSyntax = reducedSyntax.Simplify(identifiersToPlaceholders);
             var simplifiedDocument = originalDocument.WithSyntaxRoot(simplifiedSyntax);
 
-            var representation = new Representation(originalDocument.GetText(), simplifiedDocument.GetText());
+            var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(1));
             var mapping = new Mapping(identifiersToPlaceholders);
             return (representation, mapping);
         }

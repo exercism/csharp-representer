@@ -2,10 +2,12 @@ using System.IO;
 
 namespace Exercism.Representers.CSharp.IntegrationTests
 {
-    internal static class TestSolutionRepresentationReader
+    internal record TestSolutionRepresentationText(string Expected, string Actual);
+    
+    internal static class TestSolutionRepresentationTextReader
     {
-        public static TestSolutionRepresentation Read(TestSolution solution) =>
-            new TestSolutionRepresentation(solution.ReadExpected(), solution.ReadActual());
+        public static TestSolutionRepresentationText Read(TestSolution solution) =>
+            new(solution.ReadExpected(), solution.ReadActual());
 
         private static string ReadActual(this TestSolution solution) =>
             solution.ReadFile("representation.txt").NormalizeWhiteSpace();

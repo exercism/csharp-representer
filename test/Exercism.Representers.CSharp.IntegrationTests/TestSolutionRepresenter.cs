@@ -2,13 +2,14 @@ namespace Exercism.Representers.CSharp.IntegrationTests
 {
     internal static class TestSolutionRepresenter
     {
-        public static (TestSolutionRepresentation representation, TestSolutionMapping mapping) Run(TestSolution solution)
+        public static (TestSolutionRepresentationText representation, TestSolutionMapping mapping, TestSolutionRepresentationMetadata metadata) Run(TestSolution solution)
         {
             RunRepresenter(solution);
 
-            var representation = TestSolutionRepresentationReader.Read(solution);
+            var representation = TestSolutionRepresentationTextReader.Read(solution);
             var mapping = TestSolutionMappingReader.Read(solution);
-            return (representation, mapping);
+            var metadata = TestSolutionRepresentationMetadataReader.Read(solution);
+            return (representation, mapping, metadata);
         }
 
         private static void RunRepresenter(TestSolution solution) =>
