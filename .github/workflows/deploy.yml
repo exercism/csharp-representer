@@ -12,7 +12,7 @@ permissions:
 jobs:
   build-and-push-image:
     if: github.repository_owner == 'exercism' # Stops this job from running on forks.
-    uses: exercism/github-actions/.github/workflows/docker-build-push-image.yml@dependabot/github_actions/docker/build-push-action-3.2.0
+    uses: exercism/github-actions/.github/workflows/docker-build-push-image.yml@dependabot/github_actions/docker/setup-buildx-action-2.2.1
     secrets:
       AWS_ACCOUNT_ID: ${{secrets.AWS_ACCOUNT_ID}}
       AWS_REGION: ${{secrets.AWS_REGION}}
