@@ -10,7 +10,7 @@ namespace Exercism.Representers.CSharp.IntegrationTests
             GetTestSolutionGroupDirectories().SelectMany(GetTestSolutionDirectories).Select(CreateTestSolution);
 
         private static IEnumerable<string> GetTestSolutionGroupDirectories() =>
-            Directory.GetDirectories("Solutions");
+            Directory.GetDirectories("tests");
 
         private static IEnumerable<string> GetTestSolutionDirectories(string solutionsGroupDirectory) =>
             Directory.GetDirectories(solutionsGroupDirectory);
