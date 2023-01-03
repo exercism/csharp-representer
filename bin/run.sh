@@ -22,6 +22,8 @@ if [ "$#" -lt 3 ]; then
     exit 1
 fi
 
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
 if [ -f /opt/test-runner/Exercism.Representers.CSharp ]; then
     /opt/test-runner/Exercism.Representers.CSharp $1 $2 $3
 else
