@@ -12,16 +12,16 @@
 # ./bin/run-tests.sh
 
 exit_code=0
-filenames=("representation.txt" "representation.json" "mapping.json")
+filenames="representation.txt representation.json mapping.json"
 
 # Iterate over all test directories
-for test_dir in tests/*; do
+for test_dir in tests/*/*; do
     test_dir_name=$(basename "${test_dir}")
     test_dir_path=$(realpath "${test_dir}")
 
     bin/run.sh "${test_dir_name}" "${test_dir_path}" "${test_dir_path}"
 
-    for filename in ${filenames[*]}; do
+    for filename in $filenames; do
         actual_filepath="${test_dir_path}/${filename}"
         expected_filepath="${test_dir_path}/expected_${filename}"
         
