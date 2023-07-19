@@ -1,14 +1,11 @@
-﻿using System.IO;
-using CommandLine;
-
-namespace Exercism.Representers.CSharp.Bulk
+﻿namespace Exercism.Representers.CSharp.Bulk
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(Analyze);
+            var options = new Options(args[0], args[1]);
+            Analyze(options);
         }
 
         private static void Analyze(Options options)

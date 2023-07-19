@@ -1,15 +1,13 @@
 using System;
 
-using CommandLine;
-
 namespace Exercism.Representers.CSharp
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(CreateRepresentation);
+            var options = new Options(args[0], args[1], args[2]);
+            CreateRepresentation(options);
         }
 
         private static void CreateRepresentation(Options options)
