@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
-using Serilog;
 
 namespace Exercism.Representers.CSharp.Normalization
 {
@@ -20,46 +19,32 @@ namespace Exercism.Representers.CSharp.Normalization
         {
             SyntaxNode DefaultVisit() => base.VisitInitializerExpression(node);
 
-            try
+            if (!IsDictionary(node))
             {
-                if (!IsDictionary(node))
+                return DefaultVisit();
+            }
+
+            var initializerExtractionResults
+                = node.Kind() switch
                 {
-                    return DefaultVisit();
-                }
+                    SyntaxKind.CollectionInitializerExpression
+                    => ExtractInitializersWithCollectionSyntax(node),
+                    SyntaxKind.ObjectInitializerExpression
+                    => ExtractInitializersWithObjectSyntax(node),
+                    _
+                    => throw new InvalidKindException {Kind = node.Kind()}
+                };
 
-                var initializerExtractionResults
-                    = node.Kind() switch
-                    {
-                        SyntaxKind.CollectionInitializerExpression
-                        => ExtractInitializersWithCollectionSyntax(node),
-                        SyntaxKind.ObjectInitializerExpression
-                        => ExtractInitializersWithObjectSyntax(node),
-                        _
-                        => throw new InvalidKindException {Kind = node.Kind()}
-                    };
-
-                if (!initializerExtractionResults.Success)
-                {
-                    return DefaultVisit();
-                }
-
-                var replacementNode
-                    = BuildReplacementSyntaxWithCollectionInitialization(initializerExtractionResults.InitializerSyntaxNodePairs);
-
-
-                return base.VisitInitializerExpression(replacementNode);
-            }
-            catch (InvalidKindException ike)
+            if (!initializerExtractionResults.Success)
             {
-                Log.Error(
-                    $"{nameof(NormalizeDictionaryInitialization)}: {nameof(InitializerExpressionSyntax)} found with unexpected Kind {ike.Kind}");
-                throw;
+                return DefaultVisit();
             }
-            catch (Exception e)
-            {
-                Log.Error(e, $"{nameof(NormalizeDictionaryInitialization)}: unknown error");
-                throw;
-            }
+
+            var replacementNode
+                = BuildReplacementSyntaxWithCollectionInitialization(initializerExtractionResults.InitializerSyntaxNodePairs);
+
+
+            return base.VisitInitializerExpression(replacementNode);
         }
 
         private static bool IsDictionary(InitializerExpressionSyntax initializerExpression) =>
@@ -84,10 +69,8 @@ namespace Exercism.Representers.CSharp.Normalization
 
                 return (true, initializerSyntaxNodes);
             }
-            catch (Exception ex)
+            catch
             {
-                Log.Error(ex,
-                    $"{nameof(NormalizeDictionaryInitialization)}.{nameof(ExtractInitializersWithObjectSyntax)}: dictionary initialization found with unexpected syntax");
                 return (false, default);
             }
         }
@@ -104,10 +87,8 @@ namespace Exercism.Representers.CSharp.Normalization
 
                 return (true, initializerSyntaxNodes);
             }
-            catch (Exception ex)
+            catch
             {
-                Log.Error(ex,
-                    $"{nameof(NormalizeDictionaryInitialization)}.{nameof(ExtractInitializersWithCollectionSyntax)}: dictionary initialization found with unexpected syntax");
                 return (false, default);
             }
         }

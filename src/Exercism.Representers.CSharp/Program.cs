@@ -1,5 +1,6 @@
+using System;
+
 using CommandLine;
-using Serilog;
 
 namespace Exercism.Representers.CSharp
 {
@@ -13,12 +14,7 @@ namespace Exercism.Representers.CSharp
 
         private static void CreateRepresentation(Options options)
         {
-            if (!options.SkipLogConfiguration)
-            {
-                Logging.Configure();
-            }
-
-            Log.Information("Creating representation for {Exercise} solution in directory {Directory}", options.Slug, options.InputDirectory);
+            Console.WriteLine($"Creating representation for {options.Slug} solution in directory {options.InputDirectory}");
 
             var solution = SolutionParser.Parse(options);
             var (representation, mapping) = SolutionRepresenter.Represent(solution);
@@ -26,7 +22,7 @@ namespace Exercism.Representers.CSharp
             RepresentationWriter.WriteToFile(options, representation);
             MappingWriter.WriteToFile(options, mapping);
 
-            Log.Information("Created representation for {Exercise} solution in directory {Directory}", options.Slug, options.OutputDirectory);
+            Console.WriteLine($"Created representation for {options.Slug} solution in directory {options.OutputDirectory}");
         }
     }
 }
