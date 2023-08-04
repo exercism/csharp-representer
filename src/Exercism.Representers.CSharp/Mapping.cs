@@ -3,11 +3,5 @@ using System.Linq;
 
 namespace Exercism.Representers.CSharp
 {
-    internal class Mapping
-    {
-        public Dictionary<string, string> PlaceholdersToIdentifier { get; }
-
-        public Mapping(Dictionary<string, string> identifiersToPlaceholder) =>
-            PlaceholdersToIdentifier = identifiersToPlaceholder.ToDictionary(kv => kv.Value, kv => kv.Key);
-    }
+    internal record Mapping(Dictionary<string, string> PlaceholdersToIdentifier);
 }
