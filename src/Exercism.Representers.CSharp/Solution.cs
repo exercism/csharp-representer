@@ -12,7 +12,7 @@ internal record Solution(string Name, string Slug, Document Document);
 internal static class SolutionParser
 {
     public static Solution Parse(Options options) =>
-        new Solution(options.Slug, GetSolutionName(options), GetImplementationDocument(options));
+        new(options.Slug, GetSolutionName(options), GetImplementationDocument(options));
 
     private static string GetSolutionName(Options options) =>
         options.Slug.Dehumanize().Pascalize();

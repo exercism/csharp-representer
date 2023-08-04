@@ -16,5 +16,5 @@ internal static class TestSolutionsReader
         Directory.GetDirectories(solutionsGroupDirectory);
 
     private static TestSolution CreateTestSolution(string solutionDirectory) =>
-        new TestSolution("Fake", Path.GetFullPath(solutionDirectory));
+        new("Fake", Path.GetFullPath(solutionDirectory));
 }

@@ -6,8 +6,7 @@ namespace Exercism.Representers.CSharp.IntegrationTests;
 
 internal static class TestSolutionMappingReader
 {
-    public static TestSolutionMapping Read(TestSolution solution) =>
-        new TestSolutionMapping(solution.ReadExpected(), solution.ReadActual());
+    public static TestSolutionMapping Read(TestSolution solution) => new(solution.ReadExpected(), solution.ReadActual());
 
     private static Dictionary<string, string> ReadActual(this TestSolution solution) =>
         solution.ReadMapping("mapping.json");

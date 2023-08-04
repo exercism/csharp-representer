@@ -25,5 +25,5 @@ internal static class BulkSolutionsReader
         !directory.StartsWith(".");
 
     private static BulkSolution CreateBulkSolution(string slug, string solutionDirectory) =>
-        new BulkSolution(slug, solutionDirectory);
+        new(slug, solutionDirectory);
 }

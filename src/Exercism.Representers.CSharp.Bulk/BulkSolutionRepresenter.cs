@@ -26,5 +26,5 @@ internal static class BulkSolutionRepresenter
         CSharp.Program.Main(new[] { solution.Slug, solution.Directory, solution.Directory });
 
     private static BulkSolutionRepresenterResult CreateBulkSolutionRepresenterResult(BulkSolution solution, TimeSpan elapsed) =>
-        new BulkSolutionRepresenterResult(solution, BulkSolutionRepresentationReader.Read(solution), elapsed);
+        new(solution, BulkSolutionRepresentationReader.Read(solution), elapsed);
 }
