@@ -3,15 +3,15 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Exercism.Representers.CSharp.Normalization
-{
-    internal static class SyntaxNodeSimplifier
-    {
-        public static SyntaxNode Simplify(this SyntaxNode node, Dictionary<string, string> mapping) 
-            => SyntaxRewriters(mapping).Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
+namespace Exercism.Representers.CSharp.Normalization;
 
-        private static CSharpSyntaxRewriter[] SyntaxRewriters(Dictionary<string, string> mapping)
-            => new CSharpSyntaxRewriter[]
+internal static class SyntaxNodeSimplifier
+{
+    public static SyntaxNode Simplify(this SyntaxNode node, Dictionary<string, string> mapping) 
+        => SyntaxRewriters(mapping).Aggregate(node, (acc, rewriter) => rewriter.Visit(acc));
+
+    private static CSharpSyntaxRewriter[] SyntaxRewriters(Dictionary<string, string> mapping)
+        => new CSharpSyntaxRewriter[]
         {
             new RemoveOptionalParentheses(),
             new SimplifyFullyQualifiedName(),
@@ -29,5 +29,4 @@ namespace Exercism.Representers.CSharp.Normalization
             // the unit test expected values have a whitespace dependency
             new NormalizeWhiteSpace(),
         };
-    }
 }
