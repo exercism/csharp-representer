@@ -2,6 +2,8 @@ using System;
 
 namespace Exercism.Representers.CSharp;
 
+internal record Options(string Slug, string InputDirectory, string OutputDirectory);
+
 public static class Program
 {
     public static void Main(string[] args)
