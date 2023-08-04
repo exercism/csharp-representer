@@ -19,14 +19,12 @@ internal static class SolutionParser
         if (!implementationFile.Exists)
             return null;
 
-        using (var fileStream = implementationFile.OpenRead())
-        {
-            var workspace = new AdhocWorkspace();
-            var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
+        using var fileStream = implementationFile.OpenRead();
+        var workspace = new AdhocWorkspace();
+        var project = workspace.AddProject(implementationFile.DirectoryName, LanguageNames.CSharp);
 
-            var sourceText = SourceText.From(fileStream);
-            return project.AddDocument(implementationFile.Name, sourceText);
-        }
+        var sourceText = SourceText.From(fileStream);
+        return project.AddDocument(implementationFile.Name, sourceText);
     }
 
     private static FileInfo GetImplementationFile(Options options)
