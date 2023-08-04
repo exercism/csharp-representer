@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -32,7 +33,7 @@ internal static class SolutionRepresenter
         var simplifiedDocument = originalDocument.WithSyntaxRoot(simplifiedSyntax);
 
         var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(1));
-        var mapping = new Mapping(identifiersToPlaceholders);
+        var mapping = new Mapping(identifiersToPlaceholders.ToDictionary(kv => kv.Value, kv => kv.Key));
         return (representation, mapping);
     }
 
