@@ -1,16 +1,10 @@
-using CommandLine;
+namespace Exercism.Representers.CSharp.Bulk;
 
-namespace Exercism.Representers.CSharp.Bulk
+internal class Options
 {
-    internal class Options
-    {
-        [Value(0, Required = true, HelpText = "The solutions' exercise")]
-        public string Slug { get; }
+    public string Slug { get; }
+    public string Directory { get; }
 
-        [Value(1, Required = true, HelpText = "The directory containing the solutions")]
-        public string Directory { get; }
-
-        public Options(string slug, string directory) =>
-            (Slug, Directory) = (slug, directory);
-    }
+    public Options(string slug, string directory) =>
+        (Slug, Directory) = (slug, directory);
 }

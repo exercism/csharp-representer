@@ -1,32 +1,27 @@
-using CommandLine;
-using Serilog;
+using System;
 
-namespace Exercism.Representers.CSharp
+namespace Exercism.Representers.CSharp;
+
+internal record Options(string Slug, string InputDirectory, string OutputDirectory);
+
+public static class Program
 {
-    public static class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(CreateRepresentation);
-        }
+        var options = new Options(args[0], args[1], args[2]);
+        CreateRepresentation(options);
+    }
 
-        private static void CreateRepresentation(Options options)
-        {
-            if (!options.SkipLogConfiguration)
-            {
-                Logging.Configure();
-            }
+    private static void CreateRepresentation(Options options)
+    {
+        Console.WriteLine($"Creating representation for {options.Slug} solution in directory {options.InputDirectory}");
 
-            Log.Information("Creating representation for {Exercise} solution in directory {Directory}", options.Slug, options.InputDirectory);
+        var solution = SolutionParser.Parse(options);
+        var (representation, mapping) = SolutionRepresenter.Represent(solution);
+            
+        RepresentationWriter.WriteToFile(options, representation);
+        MappingWriter.WriteToFile(options, mapping);
 
-            var solution = SolutionParser.Parse(options);
-            var (representation, mapping) = SolutionRepresenter.Represent(solution);
-
-            RepresentationWriter.WriteToFile(options, representation);
-            MappingWriter.WriteToFile(options, mapping);
-
-            Log.Information("Created representation for {Exercise} solution in directory {Directory}", options.Slug, options.OutputDirectory);
-        }
+        Console.WriteLine($"Created representation for {options.Slug} solution in directory {options.OutputDirectory}");
     }
 }

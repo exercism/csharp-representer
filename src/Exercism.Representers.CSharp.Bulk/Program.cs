@@ -1,22 +1,16 @@
-﻿using System.IO;
-using CommandLine;
+﻿namespace Exercism.Representers.CSharp.Bulk;
 
-namespace Exercism.Representers.CSharp.Bulk
+public static class Program
 {
-    public static class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            Logging.Configure();
+        var options = new Options(args[0], args[1]);
+        Analyze(options);
+    }
 
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(Analyze);
-        }
-
-        private static void Analyze(Options options)
-        {
-            var bulkSolutionRepresenterResults = BulkSolutionRepresenter.RunAll(options);
-            BulkSolutionRepresenterResultsReport.Output(bulkSolutionRepresenterResults);
-        }
+    private static void Analyze(Options options)
+    {
+        var bulkSolutionRepresenterResults = BulkSolutionRepresenter.RunAll(options);
+        BulkSolutionRepresenterResultsReport.Output(bulkSolutionRepresenterResults);
     }
 }
