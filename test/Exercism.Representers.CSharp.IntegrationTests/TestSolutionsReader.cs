@@ -2,20 +2,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Exercism.Representers.CSharp.IntegrationTests
+namespace Exercism.Representers.CSharp.IntegrationTests;
+
+internal static class TestSolutionsReader
 {
-    internal static class TestSolutionsReader
-    {
-        public static IEnumerable<TestSolution> ReadAll() =>
-            GetTestSolutionGroupDirectories().SelectMany(GetTestSolutionDirectories).Select(CreateTestSolution);
+    public static IEnumerable<TestSolution> ReadAll() =>
+        GetTestSolutionGroupDirectories().SelectMany(GetTestSolutionDirectories).Select(CreateTestSolution);
 
-        private static IEnumerable<string> GetTestSolutionGroupDirectories() =>
-            Directory.GetDirectories("tests");
+    private static IEnumerable<string> GetTestSolutionGroupDirectories() =>
+        Directory.GetDirectories("tests");
 
-        private static IEnumerable<string> GetTestSolutionDirectories(string solutionsGroupDirectory) =>
-            Directory.GetDirectories(solutionsGroupDirectory);
+    private static IEnumerable<string> GetTestSolutionDirectories(string solutionsGroupDirectory) =>
+        Directory.GetDirectories(solutionsGroupDirectory);
 
-        private static TestSolution CreateTestSolution(string solutionDirectory) =>
-            new TestSolution("Fake", Path.GetFullPath(solutionDirectory));
-    }
+    private static TestSolution CreateTestSolution(string solutionDirectory) =>
+        new("Fake", Path.GetFullPath(solutionDirectory));
 }
