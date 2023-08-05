@@ -24,8 +24,8 @@ fi
 
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-if [ -f /opt/test-runner/Exercism.Representers.CSharp ]; then
-    /opt/test-runner/Exercism.Representers.CSharp $1 $2 $3
+if [ -f /opt/representer/Exercism.Representers.CSharp ]; then
+    /opt/representer/Exercism.Representers.CSharp $1 $2 $3
 else
     dotnet run --project ./src/Exercism.Representers.CSharp/ $1 $2 $3
 fi
