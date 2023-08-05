@@ -17,9 +17,9 @@ public static class Program
         Console.WriteLine($"Creating representation for {options.Slug} solution in directory {options.InputDirectory}");
 
         var solution = SolutionParser.Parse(options);
-        var (representation, mapping) = SolutionRepresenter.Represent(solution);
+        var (representation, mapping, concepts) = SolutionRepresenter.Represent(solution);
             
-        RepresentationWriter.WriteToFile(options, representation);
+        RepresentationWriter.WriteToFile(options, representation, concepts);
         MappingWriter.WriteToFile(options, mapping);
 
         Console.WriteLine($"Created representation for {options.Slug} solution in directory {options.OutputDirectory}");

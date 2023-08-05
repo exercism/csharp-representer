@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -5,6 +6,8 @@ using System.Text;
 using System.Text.Json;
 
 using Exercism.Representers.CSharp.Normalization;
+
+using Humanizer;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Simplification;
@@ -19,7 +22,7 @@ internal record RepresentationMetadata(int Version);
 
 internal static class SolutionRepresenter
 {
-    public static (Representation representation, Mapping mapping) Represent(Solution solution)
+    public static (Representation representation, Mapping mapping, HashSet<Concept> concepts) Represent(Solution solution)
     {
         var originalDocument = solution.Document;
         var syntax = originalDocument.GetSyntaxRootAsync().GetAwaiter().GetResult();
@@ -32,9 +35,12 @@ internal static class SolutionRepresenter
         var simplifiedSyntax = reducedSyntax.Simplify(identifiersToPlaceholders);
         var simplifiedDocument = originalDocument.WithSyntaxRoot(simplifiedSyntax);
 
+        var concepts = new HashSet<Concept>();
+        new IdentifyConcepts(concepts).Visit(syntax);
+
         var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(1));
         var mapping = new Mapping(identifiersToPlaceholders.ToDictionary(kv => kv.Value, kv => kv.Key));
-        return (representation, mapping);
+        return (representation, mapping, concepts);
     }
 
     private static string GetText(this TextDocument document) =>
@@ -43,22 +49,26 @@ internal static class SolutionRepresenter
 
 internal static class RepresentationWriter
 {
-    public static void WriteToFile(Options options, Representation representation)
+    public static void WriteToFile(Options options, Representation representation, HashSet<Concept> concepts)
     {
         File.WriteAllText(GetRepresentationTextFilePath(options), representation.ToRepresentationText());
-        File.WriteAllText(GetRepresentationJsonFilePath(options), representation.ToRepresentationJson());
+        File.WriteAllText(GetRepresentationJsonFilePath(options), representation.ToRepresentationJson(concepts));
     }
 
     private static string ToRepresentationText(this Representation representation) =>
         representation.Text.Simplified.Normalized();
 
-    private static string ToRepresentationJson(this Representation representation)
+    private static string ToRepresentationJson(this Representation representation, HashSet<Concept> concepts)
     {
         using var stream = new MemoryStream();
         using var writer = new Utf8JsonWriter(stream);
 
         writer.WriteStartObject();
         writer.WriteNumber("version", representation.Metadata.Version);
+        writer.WriteStartArray("concepts");
+        foreach (var concept in concepts)
+            writer.WriteStringValue(concept.ToString().Kebaberize());
+        writer.WriteEndArray();
         writer.WriteEndObject();
         writer.Flush();
 
