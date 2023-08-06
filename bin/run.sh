@@ -22,10 +22,4 @@ if [ "$#" -lt 3 ]; then
     exit 1
 fi
 
-export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
-
-if [ -f /opt/representer/Exercism.Representers.CSharp ]; then
-    /opt/representer/Exercism.Representers.CSharp $1 $2 $3
-else
-    dotnet run --project ./src/Exercism.Representers.CSharp/ $1 $2 $3
-fi
+/opt/representer/Exercism.Representers.CSharp $1 $2 $3

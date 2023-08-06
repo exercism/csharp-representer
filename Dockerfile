@@ -18,4 +18,6 @@ COPY --from=build /usr/local/bin/ /usr/local/bin/
 
 COPY bin/run.sh bin/run.sh
 
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
+
 ENTRYPOINT ["sh", "/opt/representer/bin/run.sh"]
