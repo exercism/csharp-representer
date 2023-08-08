@@ -24,5 +24,6 @@ obj/
 .ionide/
 
 # Generated representation files
-test/*/Solutions/**/mapping.json
-test/*/Solutions/**/representation.txt
+tests/**/mapping.json
+tests/**/representation.json
+tests/**/representation.txt
