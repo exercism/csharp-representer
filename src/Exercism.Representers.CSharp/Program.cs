@@ -25,3 +25,8 @@ public static class Program
         Console.WriteLine($"Created representation for {options.Slug} solution in directory {options.OutputDirectory}");
     }
 }
+
+internal static class StringExtensions
+{
+    internal static string WithTrailingEmptyLine(this string str) => str.TrimEnd() + "\n";
+}

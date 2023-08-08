@@ -28,6 +28,6 @@ internal static class MappingWriter
         writer.WriteEndObject();
         writer.Flush();
 
-        return Encoding.UTF8.GetString(stream.ToArray());
+        return Encoding.UTF8.GetString(stream.ToArray()).WithTrailingEmptyLine();
     }
 }

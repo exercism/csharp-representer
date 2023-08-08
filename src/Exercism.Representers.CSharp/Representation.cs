@@ -50,7 +50,7 @@ internal static class RepresentationWriter
     }
 
     private static string ToRepresentationText(this Representation representation) =>
-        representation.Text.Simplified;
+        representation.Text.Simplified.WithTrailingEmptyLine();
 
     private static string ToRepresentationJson(this Representation representation)
     {
@@ -62,7 +62,7 @@ internal static class RepresentationWriter
         writer.WriteEndObject();
         writer.Flush();
 
-        return Encoding.UTF8.GetString(stream.ToArray());
+        return Encoding.UTF8.GetString(stream.ToArray()).WithTrailingEmptyLine();
     }
 
     private static string GetRepresentationTextFilePath(Options options) =>
