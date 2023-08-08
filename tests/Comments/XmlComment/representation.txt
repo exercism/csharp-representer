@@ -1,0 +1,7 @@
+public static class PLACEHOLDER_1
+{
+    public static string PLACEHOLDER_2()
+    {
+        return "Test";
+    }
+}

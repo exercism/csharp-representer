@@ -1,0 +1,7 @@
+public static class PLACEHOLDER_1
+{
+    public static double PLACEHOLDER_2()
+    {
+        return 1E7;
+    }
+}

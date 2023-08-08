@@ -1,0 +1,8 @@
+public static class PLACEHOLDER_1
+{
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3)
+    {
+        var PLACEHOLDER_4 = PLACEHOLDER_3 + 2;
+        return PLACEHOLDER_4 * 3;
+    }
+}

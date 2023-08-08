@@ -1,0 +1,19 @@
+public struct Fake
+{
+    private int PLACEHOLDER_1;
+    public int PLACEHOLDER_2()
+    {
+        return PLACEHOLDER_1;
+    }
+
+    public int P { get => PLACEHOLDER_1; }
+
+    public int P2
+    {
+        get => PLACEHOLDER_1;
+        set
+        {
+            PLACEHOLDER_1 = value;
+        }
+    }
+}

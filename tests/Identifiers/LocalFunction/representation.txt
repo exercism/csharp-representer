@@ -1,0 +1,8 @@
+public static class PLACEHOLDER_1
+{
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3, int PLACEHOLDER_4)
+    {
+        int Add(int PLACEHOLDER_5, int PLACEHOLDER_6) => PLACEHOLDER_5 + PLACEHOLDER_6;
+        return Add(PLACEHOLDER_3, PLACEHOLDER_4);
+    }
+}

@@ -1,0 +1,7 @@
+public static class PLACEHOLDER_1
+{
+    public static IEnumerable<int> PLACEHOLDER_2(IEnumerable<int> PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_3.Where(PLACEHOLDER_4 => PLACEHOLDER_4 > 0).Select(PLACEHOLDER_4 => PLACEHOLDER_4 * 2).OrderBy(PLACEHOLDER_4 => PLACEHOLDER_4);
+    }
+}

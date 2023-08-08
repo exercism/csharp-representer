@@ -2,5 +2,11 @@ public class PLACEHOLDER_1
 {
     const int PLACEHOLDER_2 = 1;
     static string PLACEHOLDER_3 = "one";
-    Dictionary<int, string> PLACEHOLDER_4 = new Dictionary<int, string>{{PLACEHOLDER_2, PLACEHOLDER_3}, };
+    Dictionary<int, string> PLACEHOLDER_4 = new Dictionary<int, string>
+    {
+        {
+            PLACEHOLDER_2,
+            PLACEHOLDER_3
+        },
+    };
 }

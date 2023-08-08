@@ -6,6 +6,28 @@ public class PLACEHOLDER_1
     {
         var PLACEHOLDER_5 = 1;
         var PLACEHOLDER_6 = "one";
-        var PLACEHOLDER_7 = new Dictionary<int, string>{{PLACEHOLDER_5, PLACEHOLDER_6}, {PLACEHOLDER_2, "hello"}, {PLACEHOLDER_5, "literally"}, {1, PLACEHOLDER_6}, {1, PLACEHOLDER_3}, };
+        var PLACEHOLDER_7 = new Dictionary<int, string>
+        {
+            {
+                PLACEHOLDER_5,
+                PLACEHOLDER_6
+            },
+            {
+                PLACEHOLDER_2,
+                "hello"
+            },
+            {
+                PLACEHOLDER_5,
+                "literally"
+            },
+            {
+                1,
+                PLACEHOLDER_6
+            },
+            {
+                1,
+                PLACEHOLDER_3
+            },
+        };
     }
 }
