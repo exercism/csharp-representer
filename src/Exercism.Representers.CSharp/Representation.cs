@@ -22,6 +22,8 @@ internal record RepresentationMetadata(int Version);
 
 internal static class SolutionRepresenter
 {
+    private const int Version = 2;
+
     public static (Representation representation, Mapping mapping, HashSet<Concept> concepts) Represent(Solution solution)
     {
         var originalDocument = solution.Document;
@@ -38,7 +40,9 @@ internal static class SolutionRepresenter
         var concepts = new HashSet<Concept>();
         new IdentifyConcepts(concepts).Visit(syntax);
 
-        var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(1));
+        var representationText = new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText());
+        var representationMetadata = new RepresentationMetadata(Version);
+        var representation = new Representation(representationText, representationMetadata);
         var mapping = new Mapping(identifiersToPlaceholders.ToDictionary(kv => kv.Value, kv => kv.Key));
         return (representation, mapping, concepts);
     }
