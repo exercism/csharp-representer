@@ -1,0 +1,7 @@
+public static class PLACEHOLDER_1
+{
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_3 == 0 ? -1 : 1;
+    }
+}

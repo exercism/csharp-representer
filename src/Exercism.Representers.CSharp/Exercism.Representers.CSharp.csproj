@@ -3,12 +3,15 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <PublishTrimmed>true</PublishTrimmed>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PublishReadyToRun>true</PublishReadyToRun>
     </PropertyGroup>
     
     <ItemGroup>
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.4.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,8 @@
+public class PLACEHOLDER_1
+{
+    Point PLACEHOLDER_2 = new Point
+    {
+        X = 0,
+        Y = 0
+    };
+}

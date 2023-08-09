@@ -1,0 +1,9 @@
+public class PLACEHOLDER_1
+{
+    private static string PLACEHOLDER_2 = "interesting";
+    private int PLACEHOLDER_3 = 1729;
+    public static string PLACEHOLDER_4()
+    {
+        return "Test";
+    }
+}

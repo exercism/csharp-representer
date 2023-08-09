@@ -1,0 +1,8 @@
+public static class PLACEHOLDER_1
+{
+    public static string PLACEHOLDER_2(string PLACEHOLDER_3)
+    {
+        string PLACEHOLDER_4 = PLACEHOLDER_3 + "test";
+        return PLACEHOLDER_4 + "123";
+    }
+}

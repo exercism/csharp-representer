@@ -1,0 +1,22 @@
+public class PLACEHOLDER_1
+{
+    Dictionary<Dictionary<long, DateTime>, Dictionary<byte, short>> PLACEHOLDER_2 = new Dictionary<Dictionary<long, DateTime>, Dictionary<byte, short>>
+    {
+        {
+            new Dictionary<long, DateTime>
+            {
+                {
+                    1L,
+                    DateTime.Now
+                },
+            },
+            new Dictionary<byte, short>
+            {
+                {
+                    42,
+                    1729
+                },
+            }
+        },
+    };
+}

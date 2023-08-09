@@ -1,0 +1,10 @@
+public class PLACEHOLDER_1
+{
+    Dictionary<DateTime, Random> PLACEHOLDER_2 = new Dictionary<DateTime, Random>
+    {
+        {
+            DateTime.Now,
+            new Random()
+        },
+    };
+}

@@ -1,0 +1,14 @@
+public static class PLACEHOLDER_1
+{
+    public static int PLACEHOLDER_2()
+    {
+        if (1 > 2)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+public static class PLACEHOLDER_1
+{
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_3;
+    }
+
+    public static float PLACEHOLDER_4(bool PLACEHOLDER_5, float PLACEHOLDER_6)
+    {
+        return PLACEHOLDER_5 ? PLACEHOLDER_6 : PLACEHOLDER_6 * 2.0;
+    }
+}
+
+public static class PLACEHOLDER_7
+{
+    public static int PLACEHOLDER_2(int PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_3;
+    }
+
+    public static float PLACEHOLDER_1(bool PLACEHOLDER_8, float PLACEHOLDER_6)
+    {
+        return PLACEHOLDER_8 ? PLACEHOLDER_6 : PLACEHOLDER_6 * 2.0;
+    }
+}
