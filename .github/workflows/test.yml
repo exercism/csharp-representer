@@ -26,7 +26,7 @@ jobs:
           context: .
           push: false
           load: true
-          tags: exercism/csharp-representer:latest
+          tags: exercism/csharp-representer
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

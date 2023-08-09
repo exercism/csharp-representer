@@ -28,5 +28,5 @@ public static class Program
 
 internal static class StringExtensions
 {
-    internal static string WithTrailingEmptyLine(this string str) => str.TrimEnd() + "\n";
+    internal static string Normalized(this string str) => str.TrimEnd().Replace("\r\n", "\n") + "\n";
 }
