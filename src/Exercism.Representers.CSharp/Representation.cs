@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 
 using Exercism.Representers.CSharp.Normalization;
@@ -43,30 +42,34 @@ internal static class SolutionRepresenter
 
 internal static class RepresentationWriter
 {
+    private static readonly JsonWriterOptions JsonWriterOptions = new() {Indented = true};
+    
     public static void WriteToFile(Options options, Representation representation)
     {
-        File.WriteAllText(GetRepresentationTextFilePath(options), representation.ToRepresentationText());
-        File.WriteAllText(GetRepresentationJsonFilePath(options), representation.ToRepresentationJson());
+        WriteRepresentationToFile(options, representation);
+        WriteMetadataToFile(options, representation);
     }
+
+    private static void WriteRepresentationToFile(Options options, Representation representation) =>
+        File.WriteAllText(GetRepresentationTextFilePath(options), representation.ToRepresentationText());
 
     private static string ToRepresentationText(this Representation representation) =>
-        representation.Text.Simplified.Normalized();
-
-    private static string ToRepresentationJson(this Representation representation)
-    {
-        using var stream = new MemoryStream();
-        using var writer = new Utf8JsonWriter(stream);
-
-        writer.WriteStartObject();
-        writer.WriteNumber("version", representation.Metadata.Version);
-        writer.WriteEndObject();
-        writer.Flush();
-
-        return Encoding.UTF8.GetString(stream.ToArray()).Normalized();
-    }
+        representation.Text.Simplified.ReplaceLineEndings() + "\n";
 
     private static string GetRepresentationTextFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "representation.txt"));
+
+    private static void WriteMetadataToFile(Options options, Representation representation)
+    {
+        using var fileStream = File.Create(GetRepresentationJsonFilePath(options));
+        using var jsonWriter = new Utf8JsonWriter(fileStream, JsonWriterOptions);
+
+        jsonWriter.WriteStartObject();
+        jsonWriter.WriteNumber("version", representation.Metadata.Version);
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+        fileStream.WriteByte((byte)'\n');
+    }
 
     private static string GetRepresentationJsonFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "representation.json"));
