@@ -54,7 +54,7 @@ internal static class RepresentationWriter
         File.WriteAllText(GetRepresentationTextFilePath(options), representation.ToRepresentationText());
 
     private static string ToRepresentationText(this Representation representation) =>
-        representation.Text.Simplified.ReplaceLineEndings() + "\n";
+        representation.Text.Simplified.ReplaceLineEndings("\n") + "\n";
 
     private static string GetRepresentationTextFilePath(Options options) =>
         Path.GetFullPath(Path.Combine(options.OutputDirectory, "representation.txt"));
