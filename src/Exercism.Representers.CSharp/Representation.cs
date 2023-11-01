@@ -18,6 +18,8 @@ internal record RepresentationMetadata(int Version);
 
 internal static class SolutionRepresenter
 {
+    private const int Version = 2;
+    
     public static (Representation representation, Mapping mapping) Represent(Solution solution)
     {
         var originalDocument = solution.Document;
@@ -31,7 +33,7 @@ internal static class SolutionRepresenter
         var simplifiedSyntax = reducedSyntax.Simplify(identifiersToPlaceholders);
         var simplifiedDocument = originalDocument.WithSyntaxRoot(simplifiedSyntax);
 
-        var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(1));
+        var representation = new Representation(new RepresentationText(originalDocument.GetText(), simplifiedDocument.GetText()), new RepresentationMetadata(Version));
         var mapping = new Mapping(identifiersToPlaceholders.ToDictionary(kv => kv.Value, kv => kv.Key));
         return (representation, mapping);
     }
