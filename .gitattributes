@@ -2,3 +2,4 @@
 *.cs diff=csharp
 *.sh eol=lf
 *.sln eol=crlf
+tests/WhiteSpace/WindowsLineEndings/WindowsLineEndings.cs eol=crlf

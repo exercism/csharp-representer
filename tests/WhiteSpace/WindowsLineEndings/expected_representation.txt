@@ -1,0 +1,7 @@
+public static class PLACEHOLDER_1
+{
+    public static DateTime PLACEHOLDER_2(DateTime PLACEHOLDER_3)
+    {
+        return PLACEHOLDER_3.PLACEHOLDER_2(TimeSpan.FromSeconds(1000000000));
+    }
+}
