@@ -10,7 +10,7 @@ COPY src/Exercism.Representers.CSharp/ ./
 RUN dotnet publish -r linux-musl-x64 -c Release --self-contained true -o /opt/representer
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0.0-alpine3.18-amd64 AS runtime
+FROM mcr.microsoft.com/dotnet/runtime-deps:8.0.4-alpine3.18-amd64 AS runtime
 WORKDIR /opt/representer
 
 COPY --from=build /opt/representer/ .
